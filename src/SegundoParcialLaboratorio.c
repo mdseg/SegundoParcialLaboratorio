@@ -16,6 +16,7 @@
 #define BINARY_FILE "otro.csv"
 #define TEXT_FILE "data.txt"
 #define TEXT_DEBUG_FILE "otro.csv"
+#define TEXT_SALES_FILE "ventas.csv"
 
 int main()
 {
@@ -23,6 +24,7 @@ int main()
     int flagCargaDatos = FALSE;
     int optionSec;
    LinkedList* listClient = ll_newLinkedList();
+   LinkedList* listSales = ll_newLinkedList();
 
 
     do{
@@ -94,40 +96,41 @@ int main()
 					printf(ERROR_NOT_AVAILABLE);
 				}
             	break;
-            	/*
+
             case 7:
             	if(flagCargaDatos == TRUE)
 				{
-                	controller_sortClient(listClient);
+            		controller_loadPostersFromText(TEXT_SALES_FILE, listSales);
 				}
 				else
 				{
 					printf(ERROR_NOT_AVAILABLE);
 				}
             	break;
-			*/
+
             case 8:
 
-            	/*if(flagCargaDatos == TRUE)
-				{*/
+            	if(flagCargaDatos == TRUE)
+				{
                 	controller_saveClienteAsText(TEXT_FILE, listClient);
-				/*}
+				}
 				else
 				{
 					printf(ERROR_NOT_AVAILABLE);
-				}*/
+				}
             	break;
-            	/*
+
             case 9:
             	if(flagCargaDatos == TRUE)
 				{
-    				controller_saveAsBinary(BINARY_FILE, listClient);
+    				controller_saveSalesAsText(TEXT_SALES_FILE, listSales);
 				}
 				else
 				{
 					printf(ERROR_NOT_AVAILABLE);
 				}
             	break;
+            	/*
             case 10:
             	if(flagCargaDatos == TRUE)
 				{

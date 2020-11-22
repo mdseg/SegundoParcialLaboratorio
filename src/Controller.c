@@ -6,6 +6,7 @@
 #include "utn.h"
 #include "Controller.h"
 #include "Client.h"
+#include "Sale.h"
 
 #define LONG_ID 55
 #define LONG_NAME 55
@@ -58,21 +59,21 @@ int controller_loadClientsFromText(char* path , LinkedList* pArrayListEnvio)
  * \return int
  *
  */
-int controller_loadPostersFromText(char* path , LinkedList* pArrayListEnvio)
+int controller_loadPostersFromText(char* path , LinkedList* pArrayListSales)
 {
 	int output = -1;
 	FILE* pFile;
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	printf(CONTROLLER_LOAD_POSTERS_LIST_TEXT);
-	ll_clear(pArrayListEnvio);
-	if(pArrayListEnvio != NULL)
+	ll_clear(pArrayListSales);
+	if(pArrayListSales != NULL)
 	{
 		pFile = fopen(path,"r");
 		if(pFile == NULL)
 		{
 			printf(CONTROLLER_LOAD_LIST_NO_FILE);
 		}
-		else if(parser_ClientFromText(pFile, pArrayListEnvio) == 0)
+		else if(parser_SalesFromText(pFile, pArrayListSales) == 0)
 		{
 			printf(CONTROLLER_LOAD_LIST_TEXT_SUCCESS);
 			output = 0;
@@ -104,6 +105,57 @@ int controller_addClient(LinkedList* pArrayListClient, char* path)
 	char name[LONG_NAME];
 	char lastName[LONG_NAME];
 	char cuit[LONG_CUIT];
+	Client* bufferClient;
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
+	printf(ENTERING_CREATE_CLIENT);
+
+	if(utn_getString(INPUT_NAME, ERROR_IDCLIENTE, name, ATTEMPTS, LONG_NAME) == 0 &&
+		utn_getString(INPUT_LASTNAME, ERROR_LASTNAME, lastName, ATTEMPTS, LONG_NAME) == 0 &&
+		utn_getCuit(INPUT_CUIT, ERROR_CUIT, cuit,ATTEMPTS, LONG_CUIT) == 0)
+	{
+		idClient = controller_getNewIdCliente(pArrayListClient);
+		if(isValidIdClient(idClient) == 1 )
+		{
+			if(controller_isRepeatCuit(pArrayListClient, cuit) == 0)
+			{
+				sprintf(idClientString,"%d",idClient);
+				bufferClient = client_newParam(idClientString,name,lastName,cuit);
+				ll_add(pArrayListClient, bufferClient);
+				printf(CREATE_CLIENT_SUCCESS);
+				client_printOneClientBanners(bufferClient);
+				controller_saveClienteAsText(path, pArrayListClient);
+				output = 0;
+			}
+			else
+			{
+				printf(CONTROLLER_ISREPEATCUIT_ERROR);
+			}
+
+		}
+
+	}
+    return output;
+}
+/** \brief Alta de empleados
+ *
+ * \param path char*
+ * \param pArrayListEnvio LinkedList*
+ * \return int
+ *
+ */
+
+int controller_addSale(LinkedList* pArrayListSales, char* path)
+{
+	int output = -1;
+	int idSale;
+	char idSaleString[LONG_ID];
+	int idClient;
+	char idClientString[LONG_ID];
+	int idPostersSaled;
+	char idPostersSaledString[LONG_ID];
+	char fileName[LONG_NAME];
+	int status;
+	char statusString[LONG_ID];
 	Client* bufferClient;
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	printf(ENTERING_CREATE_CLIENT);
@@ -404,11 +456,52 @@ int controller_saveClienteAsText(char* path , LinkedList* pArrayListClient)
 		{
 
 			len = ll_len(pArrayListClient);
-			fprintf(pFile,CONTROLLER_CSV_TOP);
+			fprintf(pFile,CONTROLLER_TXT_CLIENT_TOP);
 			for (i = 0; i < len;i++)
 			{
 				bufferClient = ll_get(pArrayListClient, i);
 				fprintf(pFile,"%d,%s,%s,%s\n",client_getIdClient(bufferClient),client_getName(bufferClient),client_getLastName(bufferClient),client_getCUIT(bufferClient));
+			}
+			fclose(pFile);
+			printf(CONTROLLER_CREATE_SUCCESS);
+			output = 0;
+		}
+		else
+		{
+			printf(CONTROLLER_SAVE_BINARY_PATH_ERROR);
+		}
+	}
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
+    return output;
+}
+/** \brief Guarda los datos de los empleados en el archivo data.csv (modo texto).
+ *
+ * \param path char*
+ * \param pArrayListEnvio LinkedList*
+ * \return int
+ *
+ */
+
+int controller_saveSalesAsText(char* path , LinkedList* pArrayListSale)
+{
+	int output = -1;
+	int len;
+	int i = 0;
+	Sale* bufferSale;
+	FILE* pFile;
+	pFile = fopen(path,"w");
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
+	if(path != NULL && pArrayListSale != NULL)
+	{
+		if(pFile != NULL)
+		{
+
+			len = ll_len(pArrayListSale);
+			fprintf(pFile,CONTROLLER_TXT_SALE_TOP);
+			for (i = 0; i < len;i++)
+			{
+				bufferSale = ll_get(pArrayListSale, i);
+				fprintf(pFile,"%d,%d,%d,%s,%d,%d\n",sale_getIdSale(bufferSale),sale_getIdClient(bufferSale),sale_getPostersSaled(bufferSale),sale_getFileName(bufferSale),sale_getZone(bufferSale),sale_getStatus(bufferSale));
 			}
 			fclose(pFile);
 			printf(CONTROLLER_CREATE_SUCCESS);

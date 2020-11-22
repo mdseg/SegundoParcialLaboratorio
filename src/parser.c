@@ -80,44 +80,44 @@ int parser_ClientFromText(FILE* pFile , LinkedList* pArrayListClient)
  * \return int
  *
  */
-int parser_SaleFromText(FILE* pFile , LinkedList* pArrayListClient)
+int parser_SalesFromText(FILE* pFile , LinkedList* pArrayListSales)
 {
 	int output = -1;
-	Sale* bufferClient;
+	Sale* bufferSale;
 	char idSaleString[LONG_IDSTRING];
 	char idClientString[LONG_IDSTRING];
 	char postersSaledString[LONG_SALESSTRING];
 	char fileName[LONG_NAME];
-	char zona[LONG_NAME];
+	char zone[LONG_IDSTRING];
 	char status[LONG_IDSTRING];
-	int idClient;
+	int idSale;
 	int r;
 	int flagEncabezado = FALSE;
 	int flagErrores = FALSE;
-	if(pFile != NULL && pArrayListClient != NULL)
+	if(pFile != NULL && pArrayListSales != NULL)
 	{
 		do
 		{
-			r = fscanf(pFile,"%[^,],%[^,],%[^,],%[^\n]\n",idClientString,name,lastName,cuit);
+			r = fscanf(pFile,"%[^,],%[^,],%[^,],%[^,],%[^,],%[^\n]\n",idSaleString,idClientString,postersSaledString,fileName,zone,status);
 			if (flagEncabezado == 0)
 			{
 				flagEncabezado = 1;
 			}
 			else
 			{
-				if(r==4)
+				if(r==6)
 				{
-					idClient = atoi(idClientString);
-					if(isValidIdClient(idClient) && controller_isRepeatCuit(pArrayListClient, cuit) == 0)
+					idSale = atoi(idSaleString);
+					if(isValidIdClient(idSale))
 					{
-						bufferClient = client_newParam(idClientString,name,lastName,cuit);
-						ll_add(pArrayListClient, bufferClient);
+						bufferSale = sale_newParam(idSale,idClientString,postersSaledString,fileName,zone,status);
+						ll_add(pArrayListSales, bufferSale);
 
 					}
 				}
 				else
 				{
-					client_delete(bufferClient);
+					sale_delete(bufferSale);
 					flagErrores = TRUE;
 					break;
 				}

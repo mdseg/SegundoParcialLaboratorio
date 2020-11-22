@@ -9,22 +9,36 @@ Sale* sale_new(void)
 	return (Sale*)malloc(sizeof(Sale));
 }
 
-Sale* sale_newParam(int idSale, int idClient, int postersSaled, char* fileName, char* zone, int status)
+Sale* sale_newParam(int idSale, char* idClient, char* postersSaled, char* fileName, char* zone, char* status)
 {
 	Sale* this = sale_new();
 	if(this != NULL)
 	{
 		if(!(sale_setIdSale(this, idSale))
-			&& !(sale_setIdClient(this, idClient))
-			&& !(sale_setPostersSaled(this, postersSaled))
+			&& !(sale_setIdClient(this, atoi(idClient)))
+			&& !(sale_setPostersSaled(this, atoi(postersSaled)))
 			&& !(sale_setFileName(this, fileName))
-			&& !(sale_setZone(this, zone))
-			&& !(sale_setStatus(this, status)))
+			&& !(sale_setZone(this, atoi(zone)))
+			&& !(sale_setStatus(this, atoi(status))))
 		{
 			return this;
 		}
 	}
 	return NULL;
+}
+
+/** \brief verifica que un puntero del tipo Empleado no sea nulo y posteriormente lo elimina, liberando la memoria asociada a él
+ *
+ * \param employee1 Employee*
+ * \return void
+ *
+ */
+void sale_delete(Sale* this)
+{
+	if(this != NULL)
+	{
+		free(this);
+	}
 }
 
 int sale_getIdSale(Sale* this)
@@ -107,23 +121,23 @@ int isValidFileName(char* fileName)
 	return 1;
 }
 
-char* sale_getZone(Sale* this)
+int sale_getZone(Sale* this)
 {
 	return this->zone;
 }
 
-int sale_setZone(Sale* this, char* zone)
+int sale_setZone(Sale* this, int zone)
 {
 	int output = -1;
 	if(this != NULL && isValidZone(zone))
 	{
-		strncpy(this->zone,zone,(int)sizeof(this->zone));
+		this->zone = zone;
 		output = 0;
 	}
 	return output;
 }
 
-int isValidZone(char* zone)
+int isValidZone(int zone)
 {
 	return 1;
 }
