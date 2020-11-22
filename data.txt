@@ -1,0 +1,8 @@
+id,nombre,horasTrabajadas,sueldo
+1,Marcelo,Benitez,20358638628
+2,Karina,Garcia,27224568389
+3,Brandon,Cuevas,20293855568
+4,Mateo,Retegui,20356849288
+5,Karen,Lemos,27367980693
+6,Ramiro,Marreiro,20333333330
+7,Marcelo,Ji,20333333333
