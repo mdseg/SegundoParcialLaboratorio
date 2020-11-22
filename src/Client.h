@@ -25,7 +25,7 @@
 #define ERROR_NAME "Por favor, ingrese un nombre válido.\n"
 #define ERROR_LASTNAME "Por favor, ingrese un apellido válido.\n"
 #define ERROR_CUIT "Por favor, ingrese un cuit válido.\n"
-#define INPUT_ID "Ingrese el Id:\n"
+#define INPUT_ID "Ingrese el Id del Cliente:\n"
 #define INPUT_NAME "Ingrese el nombre:\n"
 #define INPUT_LASTNAME "Ingrese el apellido:\n"
 #define INPUT_CUIT "Ingrese el Cuit del cliente sin guiones (ej: 20358638628):\n"
@@ -37,6 +37,7 @@
 //Modifiy
 #define MODIFY_CLIENT_SUCCESS "\nCliente modificado correctamente.\n"
 #define MODIFY_CLIENT_ERROR "\nError en la modificación del cliente.\n"
+#define MODIFY_CLIENT_NO_EXIST "\nError en la modificación del cliente, no existe el cliente.\n"
 #define MODIFY_NAME_SUCCESS "Nombre modificado con éxito.\n"
 #define MODIFY_NAME_ERROR "Error al intentar modificar el nombre.\n"
 #define MODIFY_LASTNAME_SUCCESS "Apellido modificado con éxito.\n"
@@ -77,7 +78,8 @@ typedef struct
 }Client;
 
 Client* client_new(void);
-Client* client_newParam(char* idClient, char* name, char* lastName, char* CUIT);
+Client* client_newString(char* idClient, char* name, char* lastName, char* CUIT);
+Client* client_newParams(int idClient, char* name, char* lastName, char* CUIT);
 int client_setIdClient(Client* this, int idClient);
 int client_setName(Client* this, char* name);
 int client_setLastName(Client* this, char* lastName);
@@ -93,7 +95,7 @@ int client_getPostersToPay(Client* this);
 
 
 void client_delete(Client* this);
-int client_printOneClient(Client* this);
+int client_printOneClient(void* this);
 int client_printOneClientBanners(Client* this);
 int client_isRepeatCuit(void* this, char* cuit);
 

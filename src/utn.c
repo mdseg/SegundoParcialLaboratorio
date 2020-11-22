@@ -918,7 +918,7 @@ int utn_getCuit(char* message, char* errorMessage, char* pResult, int attemps, i
 */
 int utn_isValidFileName(char* array)
 {
-	int retorno = 1;
+	int retorno = 0;
 	int i;
 	int j;
 	for (i=0;array[i] != '\0';i++)
@@ -926,9 +926,8 @@ int utn_isValidFileName(char* array)
 			if((array[i] < 'a' || array[i] > 'z') &&
 			   (array[i] < 'A' || array[i] > 'Z') &&
 			   (array[i] < '0' || array[i] > '9') &&
-				array[i] != ' ')
+				array[i] != ' ' && array[i] != '.')
 			{
-				retorno = 0;
 				break;
 			}
 			else
@@ -941,7 +940,7 @@ int utn_isValidFileName(char* array)
 						if((array[j] < 'a' || array[j] > 'z') &&
 						(array[j] < 'A' || array[j] > 'Z'))
 						{
-							retorno = 0;
+							retorno = 1;
 							break;
 						}
 					}
@@ -985,5 +984,39 @@ int utn_getString(char* message, char* errorMessage, char* pResult, int attemps,
 	}
 	return retorno;
 }
-
+/**
+* \brief Solicita un nombre de archvo al usuario y lo valida.
+* \param message char* Es el mensaje a ser mostrado al usuario.
+* \param errorMessage char* Es el mensaje de error a ser mostrado al usuario.
+* \param pResult char* puntero al espacio de memoria donde se dejará el valor obtenido.
+* \param attempts int cantidad de oportunidades para ingresar el dato
+* \param limit int la longitud del array permitida
+* \return (-1) Error / (0) Ok
+ */
+int utn_getFileName(char* message, char* errorMessage, char* pResult, int attemps, int limit)
+{
+	int retorno = -1;
+	char bufferString[LIMITE_BUFFER_STRING];
+	if ( message != NULL && errorMessage != NULL && pResult != NULL && attemps >= 0 && limit >0)
+	{
+		do
+		{
+			printf("%s",message);
+			if(utn_myGets(bufferString,LIMITE_BUFFER_STRING) == 0 &&
+				strnlen(bufferString,sizeof(bufferString)-1)<=limit && utn_isValidFileName(pResult) == 1)
+			{
+				retorno = 0;
+				strncpy(pResult,bufferString,limit);
+				break;
+			}
+			else
+			{
+				printf("%s",errorMessage);
+				attemps--;
+			}
+		}
+		while(attemps > 0);
+	}
+	return retorno;
+}
 

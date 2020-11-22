@@ -38,4 +38,5 @@ int utn_getCharInt(char* pResultado,char* mensaje,char* mensajeError,int minimo,
 int isFloat(char string[]);
 int utn_countPointsArray(char pArray[]);
 int utn_getCharFloat(char* pResultado,char* mensaje,char* mensajeError,float minimo,float maximo,int reintentos);
+int utn_getFileName(char* message, char* errorMessage, char* pResult, int attemps, int limit);
 #endif

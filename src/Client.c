@@ -20,12 +20,31 @@ Client* client_new(void)
 	return (Client*)malloc(sizeof(Client));
 }
 
-Client* client_newParam(char* postersPaids, char* name, char* lastName, char* CUIT)
+Client* client_newString(char* idClient, char* name, char* lastName, char* CUIT)
 {
 	Client* this = client_new();
 	if(this != NULL)
 	{
-		if(!(client_setIdClient(this, atoi(postersPaids)))
+		if(!(client_setIdClient(this, atoi(idClient)))
+			&& !(client_setName(this, name))
+			&& !(client_setLastName(this, lastName))
+			&& !(client_setCUIT(this, CUIT))
+			)
+		{
+			client_setPostersPaids(this, 0);
+			client_setPostersToPay(this, 0);
+			return this;
+		}
+	}
+	return NULL;
+}
+
+Client* client_newParams(int idClient, char* name, char* lastName, char* CUIT)
+{
+	Client* this = client_new();
+	if(this != NULL)
+	{
+		if(!(client_setIdClient(this, idClient))
 			&& !(client_setName(this, name))
 			&& !(client_setLastName(this, lastName))
 			&& !(client_setCUIT(this, CUIT))
@@ -41,24 +60,24 @@ Client* client_newParam(char* postersPaids, char* name, char* lastName, char* CU
 
 int client_getIdClient(Client* this)
 {
-	return this->postersPaids;
+	return this->idClient;
 }
 
-int client_setIdClient(Client* this, int postersPaids)
+int client_setIdClient(Client* this, int idClient)
 {
 	int output = -1;
-	if(this != NULL  && isValidIdClient(postersPaids))
+	if(this != NULL  && isValidIdClient(idClient))
 	{
-		this->postersPaids = postersPaids;
+		this->idClient = idClient;
 		output = 0;
 	}
 	 return output;
 }
 
-int isValidIdClient(int postersPaids)
+int isValidIdClient(int idClient)
 {
 	int output = 0;
-	if(postersPaids > 0)
+	if(idClient > 0)
 	{
 		output = 1;
 	}
@@ -163,12 +182,13 @@ void client_delete(Client* this)
  * \return int
  *
  */
-int client_printOneClient(Client* this)
+int client_printOneClient(void* this)
 {
 	int output = -1;
+	Client* bufferCliente = (Client*)this;
 	if (this != NULL)
 	{
-		printf(PRINT_ONE_REGISTRY_NO_REPORT, client_getIdClient(this), client_getName(this), client_getLastName(this), client_getCUIT(this));
+		printf(PRINT_ONE_REGISTRY_NO_REPORT, client_getIdClient(bufferCliente), client_getName(bufferCliente), client_getLastName(bufferCliente), client_getCUIT(bufferCliente));
 		output = 0;
 	}
 	return output;

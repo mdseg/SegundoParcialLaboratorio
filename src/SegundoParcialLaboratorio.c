@@ -3,6 +3,7 @@
 #include "LinkedList.h"
 #include "Controller.h"
 #include "Client.h"
+#include "Sale.h"
 #include "utn.h"
 
 
@@ -21,10 +22,17 @@
 int main()
 {
     int option;
-    int flagCargaDatos = FALSE;
+    int flagCargaDatos = TRUE;
     int optionSec;
    LinkedList* listClient = ll_newLinkedList();
    LinkedList* listSales = ll_newLinkedList();
+   controller_loadClientsFromText(TEXT_FILE,listClient);
+   controller_loadPostersFromText(TEXT_SALES_FILE, listSales);
+
+   Sale* prueba = ll_get(listSales, 1);
+   sale_printOneSaleBanners(prueba);
+   controller_editSale(listSales, listClient, TEXT_SALES_FILE);
+
 
 
     do{
@@ -130,17 +138,19 @@ int main()
 					printf(ERROR_NOT_AVAILABLE);
 				}
             	break;
-            	/*
+
             case 10:
             	if(flagCargaDatos == TRUE)
 				{
-            		controller_filterById(listClient);
+            		controller_printClients(listClient);
+            		controller_addSale(listSales, listClient, TEXT_SALES_FILE);
 				}
 				else
 				{
 					printf(ERROR_NOT_AVAILABLE);
 				}
 				break;
+				/*
             case 11:
 				if(flagCargaDatos == TRUE)
 				{

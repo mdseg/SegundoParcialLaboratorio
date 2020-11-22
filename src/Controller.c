@@ -16,6 +16,8 @@
 #define FALSE 0
 #define ATTEMPTS 5
 
+
+
 /** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
  *
  * \param path char*
@@ -119,7 +121,7 @@ int controller_addClient(LinkedList* pArrayListClient, char* path)
 			if(controller_isRepeatCuit(pArrayListClient, cuit) == 0)
 			{
 				sprintf(idClientString,"%d",idClient);
-				bufferClient = client_newParam(idClientString,name,lastName,cuit);
+				bufferClient = client_newString(idClientString,name,lastName,cuit);
 				ll_add(pArrayListClient, bufferClient);
 				printf(CREATE_CLIENT_SUCCESS);
 				client_printOneClientBanners(bufferClient);
@@ -144,46 +146,49 @@ int controller_addClient(LinkedList* pArrayListClient, char* path)
  *
  */
 
-int controller_addSale(LinkedList* pArrayListSales, char* path)
+int controller_addSale(LinkedList* pArrayListSales,LinkedList* pArrayListClients, char* path)
 {
 	int output = -1;
 	int idSale;
-	char idSaleString[LONG_ID];
 	int idClient;
 	char idClientString[LONG_ID];
-	int idPostersSaled;
-	char idPostersSaledString[LONG_ID];
+	int idPostersSold;
+	char idPostersSoldString[LONG_ID];
 	char fileName[LONG_NAME];
-	int status;
-	char statusString[LONG_ID];
-	Client* bufferClient;
+	int zone;
+	char zoneString[LONG_ID];
+	Sale* bufferSale;
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	printf(ENTERING_CREATE_CLIENT);
-
-	if(utn_getString(INPUT_NAME, ERROR_IDCLIENTE, name, ATTEMPTS, LONG_NAME) == 0 &&
-		utn_getString(INPUT_LASTNAME, ERROR_LASTNAME, lastName, ATTEMPTS, LONG_NAME) == 0 &&
-		utn_getCuit(INPUT_CUIT, ERROR_CUIT, cuit,ATTEMPTS, LONG_CUIT) == 0)
+	if(pArrayListSales != NULL && pArrayListClients != NULL)
 	{
-		idClient = controller_getNewIdCliente(pArrayListClient);
-		if(isValidIdClient(idClient) == 1 )
+		if(utn_getInt(&idClient, INPUT_ID, ERROR_IDCLIENTE, IDCLIENTE_MIN, IDCLIENTE_MAX, ATTEMPTS) == 0  &&
+				utn_getInt(&idPostersSold, INPUT_POSTERSSOLD, ERROR_POSTERSSOLD, POSTERSSOLD_MIN, POSTERSSOLD_MAX, ATTEMPTS) == 0 &&
+				utn_getInt(&zone, INPUT_ZONE, ERROR_ZONE, ZONE_MIN, ZONE_MAX, ATTEMPTS) == 0 &&
+				utn_getFileName(INPUT_FILENAME, ERROR_FILENAME, fileName, ATTEMPTS, LONG_NAME) == 0
+				)
 		{
-			if(controller_isRepeatCuit(pArrayListClient, cuit) == 0)
+			idSale = controller_getNewIdSale(pArrayListSales);
+			if(isValidIdSale(idSale) == 1 && controller_findClientById(pArrayListClients, idClient) > 0)
 			{
-				sprintf(idClientString,"%d",idClient);
-				bufferClient = client_newParam(idClientString,name,lastName,cuit);
-				ll_add(pArrayListClient, bufferClient);
-				printf(CREATE_CLIENT_SUCCESS);
-				client_printOneClientBanners(bufferClient);
-				controller_saveClienteAsText(path, pArrayListClient);
-				output = 0;
+					sprintf(idClientString,"%d",idClient);
+					sprintf(idPostersSoldString,"%d", idPostersSold);
+					sprintf(zoneString,"%d", zone);
+					bufferSale = sale_newParam(idSale, idClientString, idPostersSoldString, fileName, zoneString);
+					if(bufferSale != NULL)
+					{
+						ll_add(pArrayListSales, bufferSale);
+						printf(CREATE_SALE_SUCCESS);
+						controller_saveSalesAsText(path, pArrayListSales);
+					}
+					output = 0;
 			}
 			else
 			{
-				printf(CONTROLLER_ISREPEATCUIT_ERROR);
+				printf(CONTROLLER_CLIENTNOEXIST_ERROR);
 			}
 
 		}
-
 	}
     return output;
 }
@@ -193,6 +198,7 @@ int controller_addSale(LinkedList* pArrayListSales, char* path)
 * \param len int lenght of the Cliente* list
 * \return int Return (-1) if Error - (0) if Ok
 */
+
 /** \brief Modificar datos de empleado
  *
  * \param path char*
@@ -200,8 +206,6 @@ int controller_addSale(LinkedList* pArrayListSales, char* path)
  * \return int
  *
  */
-
-
 int controller_editClient(LinkedList* pArrayListClient, char* path)
 {
 	int output = -1;
@@ -275,6 +279,113 @@ int controller_editClient(LinkedList* pArrayListClient, char* path)
 					ll_set(pArrayListClient, index, bufferClient);
 					controller_saveClienteAsText(path, pArrayListClient);
 					printf(MODIFY_CLIENT_SUCCESS);
+					output = 0;
+				}
+			}
+		}
+	}
+	else
+	{
+		printf(LL_NULL_ERROR);
+	}
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
+    return output;
+}
+
+/** \brief Modificar datos de empleado
+ *
+ * \param path char*
+ * \param pArrayListEnvio LinkedList*
+ * \return int
+ *
+ */
+int controller_editSale(LinkedList* pArrayListSales,LinkedList* pArrayListClients, char* path)
+{
+	int output = -1;
+	int idSale;
+	int idClient;
+	int postersSold;
+	char fileName[LONG_NAME];
+	int zone;
+	int index;
+	int op;
+	int flagCarga = FALSE;
+	Sale* bufferSale;
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
+	printf(ENTERING_MODIFY_SALE);
+	if(pArrayListClients != NULL && pArrayListSales != NULL)
+	{
+		if(utn_getInt(&idSale, INPUT_IDSALE, ERROR_IDSALE, IDSALE_MIN, IDSALE_MAX, ATTEMPTS) == 0)
+		{
+			index = controller_findSalesById(pArrayListSales, idSale);
+
+			if(index != -1)
+			{
+				bufferSale = ll_get(pArrayListSales, index);
+				sale_printOneSaleBanners(bufferSale);
+				do
+				{
+					utn_getInt(&op, MENU_MODIFY_SALE, MENU_SELECT_ERROR, 1, 5, ATTEMPTS);
+					switch (op)
+					{
+						case 1:
+							if(utn_getInt(&idClient, INPUT_ID, ERROR_IDCLIENTE, IDCLIENTE_MIN, IDCLIENTE_MAX, ATTEMPTS) == 0 &&
+									controller_findClientById(pArrayListClients, idClient) > -1	)
+							{
+								sale_setIdClient(bufferSale, idClient);
+								flagCarga = TRUE;
+								printf(MODIFY_NAME_SUCCESS);
+							}
+							else
+							{
+								printf(MODIFY_CLIENT_NO_EXIST);
+							}
+							break;
+						case 2:
+							if(utn_getInt(&postersSold, INPUT_POSTERSSOLD, ERROR_POSTERSSOLD, POSTERSSOLD_MIN, POSTERSSOLD_MAX, ATTEMPTS) == 0)
+							{
+								sale_setPostersSold(bufferSale, postersSold);
+								flagCarga = TRUE;
+								printf(MODIFY_POSTERSSOLD_SUCCESS);
+							}
+							else
+							{
+								printf(MODIFY_POSTERSSOLD_ERROR);
+							}
+							break;
+						case 3:
+							if(utn_getFileName(INPUT_FILENAME, ERROR_FILENAME, fileName, ATTEMPTS, LONG_NAME) == 0)
+							{
+								sale_setFileName(bufferSale, fileName);
+								flagCarga = TRUE;
+								printf(MODIFY_FILENAME_SUCCESS);
+							}
+							else
+							{
+								printf(MODIFY_FILENAME_ERROR);
+							}
+							break;
+						case 4:
+							if(utn_getInt(&zone, INPUT_ZONE, ERROR_ZONE, ZONE_MIN, ZONE_MAX, ATTEMPTS) == 0)
+							{
+								sale_setZone(bufferSale, zone);
+								flagCarga = TRUE;
+								printf(MODIFY_ZONE_SUCCESS);
+							}
+							else
+							{
+								printf(MODIFY_ZONE_ERROR);
+							}
+							break;
+					}
+					sale_printOneSaleBanners(bufferSale);
+				}
+				while(op != 5);
+				if(flagCarga == TRUE)
+				{
+					ll_set(pArrayListSales, index, bufferSale);
+					controller_saveSalesAsText(path, pArrayListSales);
+					printf(MODIFY_SALE_SUCCESS);
 					output = 0;
 				}
 			}
@@ -501,7 +612,7 @@ int controller_saveSalesAsText(char* path , LinkedList* pArrayListSale)
 			for (i = 0; i < len;i++)
 			{
 				bufferSale = ll_get(pArrayListSale, i);
-				fprintf(pFile,"%d,%d,%d,%s,%d,%d\n",sale_getIdSale(bufferSale),sale_getIdClient(bufferSale),sale_getPostersSaled(bufferSale),sale_getFileName(bufferSale),sale_getZone(bufferSale),sale_getStatus(bufferSale));
+				fprintf(pFile,"%d,%d,%d,%s,%d,%d\n",sale_getIdSale(bufferSale),sale_getIdClient(bufferSale),sale_getPostersSold(bufferSale),sale_getFileName(bufferSale),sale_getZone(bufferSale),sale_getStatus(bufferSale));
 			}
 			fclose(pFile);
 			printf(CONTROLLER_CREATE_SUCCESS);
@@ -544,6 +655,27 @@ int controller_getNewIdCliente(LinkedList* pArrayListClient)
 
 	return output;
 }
+/** \brief Busca un nuevo Id disponible en una lista enlazada de empleados y lo devuelve por valor.
+ *
+ * \param pArrayListEnvio LinkedList*
+ * \return int
+ *
+ */
+
+int controller_getNewIdSale(LinkedList* pArrayListSale)
+{
+	int output = -1;
+	int len;
+	Sale* bufferSale;
+	if(pArrayListSale != NULL)
+	{
+		len = ll_len(pArrayListSale);
+		bufferSale = ll_get(pArrayListSale, (len-1));
+		output = sale_getIdSale(bufferSale) + 1;
+	}
+
+	return output;
+}
 /** \brief Busca un nuevo dato del tipo Empleado en una lista enlazada tomando como parametro el id retornando el valor por referencias.
  *
  * \param pArrayListEnvio LinkedList*
@@ -559,11 +691,41 @@ int controller_findClientById(LinkedList* pArrayListClient, int id)
 	Client* bufferClient;
 	if (pArrayListClient != NULL && isValidIdClient(id) == 1)
 	{
+		output = 0;
 		len = ll_len(pArrayListClient);
 		for(i = 0; i < len; i++)
 		{
 			bufferClient = ll_get(pArrayListClient, i);
 			if(client_getIdClient(bufferClient) == id)
+			{
+				output = i;
+				break;
+			}
+		}
+	}
+	return output;
+}
+/** \brief Busca un nuevo dato del tipo Empleado en una lista enlazada tomando como parametro el id retornando el valor por referencias.
+ *
+ * \param pArrayListEnvio LinkedList*
+ * \param int id
+ * \return int
+ *
+ */
+int controller_findSalesById(LinkedList* pArrayListSales, int id)
+{
+	int output = -1;
+	int len;
+	int i;
+	Sale* bufferSale;
+	if (pArrayListSales != NULL && isValidIdSale(id) == 1)
+	{
+		output = 0;
+		len = ll_len(pArrayListSales);
+		for(i = 0; i < len; i++)
+		{
+			bufferSale = ll_get(pArrayListSales, i);
+			if(sale_getIdSale(bufferSale) == id)
 			{
 				output = i;
 				break;
@@ -611,3 +773,5 @@ int controller_countEnvios(LinkedList* pArrayListEnvio)
 }
 
 */
+
+

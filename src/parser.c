@@ -51,7 +51,7 @@ int parser_ClientFromText(FILE* pFile , LinkedList* pArrayListClient)
 					idClient = atoi(idClientString);
 					if(isValidIdClient(idClient) && controller_isRepeatCuit(pArrayListClient, cuit) == 0)
 					{
-						bufferClient = client_newParam(idClientString,name,lastName,cuit);
+						bufferClient = client_newParams(idClient, name, lastName, cuit);
 						ll_add(pArrayListClient, bufferClient);
 
 					}
@@ -110,7 +110,7 @@ int parser_SalesFromText(FILE* pFile , LinkedList* pArrayListSales)
 					idSale = atoi(idSaleString);
 					if(isValidIdClient(idSale))
 					{
-						bufferSale = sale_newParam(idSale,idClientString,postersSaledString,fileName,zone,status);
+						bufferSale = sale_newParamWithStatus(idSale,idClientString,postersSaledString,fileName,zone,status);
 						ll_add(pArrayListSales, bufferSale);
 
 					}

@@ -9,14 +9,32 @@ Sale* sale_new(void)
 	return (Sale*)malloc(sizeof(Sale));
 }
 
-Sale* sale_newParam(int idSale, char* idClient, char* postersSaled, char* fileName, char* zone, char* status)
+Sale* sale_newParam(int idSale, char* idClient, char* postersSold, char* fileName, char* zone)
 {
 	Sale* this = sale_new();
 	if(this != NULL)
 	{
 		if(!(sale_setIdSale(this, idSale))
 			&& !(sale_setIdClient(this, atoi(idClient)))
-			&& !(sale_setPostersSaled(this, atoi(postersSaled)))
+			&& !(sale_setPostersSold(this, atoi(postersSold)))
+			&& !(sale_setFileName(this, fileName))
+			&& !(sale_setZone(this, atoi(zone))))
+
+		{
+			sale_setStatus(this, 1);
+			return this;
+		}
+	}
+	return NULL;
+}
+Sale* sale_newParamWithStatus(int idSale, char* idClient, char* postersSold, char* fileName, char* zone,char* status)
+{
+	Sale* this = sale_new();
+	if(this != NULL)
+	{
+		if(!(sale_setIdSale(this, idSale))
+			&& !(sale_setIdClient(this, atoi(idClient)))
+			&& !(sale_setPostersSold(this, atoi(postersSold)))
 			&& !(sale_setFileName(this, fileName))
 			&& !(sale_setZone(this, atoi(zone)))
 			&& !(sale_setStatus(this, atoi(status))))
@@ -26,7 +44,6 @@ Sale* sale_newParam(int idSale, char* idClient, char* postersSaled, char* fileNa
 	}
 	return NULL;
 }
-
 /** \brief verifica que un puntero del tipo Empleado no sea nulo y posteriormente lo elimina, liberando la memoria asociada a él
  *
  * \param employee1 Employee*
@@ -79,23 +96,23 @@ int sale_setIdClient(Sale* this, int idClient)
 }
 
 
-int sale_getPostersSaled(Sale* this)
+int sale_getPostersSold(Sale* this)
 {
-	return this->postersSaled;
+	return this->postersSold;
 }
 
-int sale_setPostersSaled(Sale* this, int postersSaled)
+int sale_setPostersSold(Sale* this, int postersSold)
 {
 	int output = -1;
-	if(this != NULL  && isValidPostersSaled(postersSaled))
+	if(this != NULL  && isValidPostersSold(postersSold))
 	{
-		this->postersSaled = postersSaled;
+		this->postersSold = postersSold;
 		output = 0;
 	}
 	 return output;
 }
 
-int isValidPostersSaled(int postersSaled)
+int isValidPostersSold(int postersSold)
 {
 	return 1;
 }
@@ -161,6 +178,70 @@ int sale_setStatus(Sale* this, int status)
 int isValidStatus(int status)
 {
 	return 1;
+}
+
+/** \brief imprime una tabla con los datos de un unico registro de empleado
+ *
+ * \param envio1 Sale*
+ * \return int
+ *
+ */
+int sale_printOneSale(Sale* this)
+{
+	int output = -1;
+		char zoneString[LONG_ZONE];
+		char statusString[55];
+		int zone;
+		int status;
+		if (this != NULL)
+		{
+			zone = sale_getZone(this);
+			status = sale_getStatus(this);
+			switch(zone)
+			{
+				case 1:
+					strcpy(zoneString,"CABA");
+					break;
+				case 2:
+					strcpy(zoneString,"Zona Sur");
+					break;
+				case 3:
+					strcpy(zoneString,"Zona Oeste");
+					break;
+			}
+			switch(status)
+			{
+				case 1:
+					strcpy(statusString,"A cobrar");
+					break;
+				case 2:
+					strcpy(statusString,"Cobrada");
+					break;
+			}
+			printf(PRINT_ONE_SALE, sale_getIdSale(this),sale_getIdClient(this), sale_getPostersSold(this), sale_getFileName(this), zoneString,statusString);
+			output = 0;
+		}
+		return output;
+}
+/** \brief imprime una tabla con los datos de un unico registro de empleado
+ *
+ * \param envio1 Sale*
+ * \return int
+ *
+ */
+int sale_printOneSaleBanners(Sale* this)
+{
+	int output = -1;
+	if(this != NULL)
+	{
+		printf(PRINT_ONE_SALE_TOP);
+		sale_printOneSale(this);
+		printf(PRINT_ONE_SALE_BOTTOM);
+		output = 0;
+	}
+
+
+	return output;
 }
 
 
