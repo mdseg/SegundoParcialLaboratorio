@@ -921,6 +921,7 @@ int utn_isValidFileName(char* array)
 	int retorno = 0;
 	int i;
 	int j;
+	int max;
 	for (i=0;array[i] != '\0';i++)
 		{
 			if((array[i] < 'a' || array[i] > 'z') &&
@@ -934,16 +935,19 @@ int utn_isValidFileName(char* array)
 			{
 				if(array[i] == '.')
 				{
-					j= i;
-					for(;j < (j+2);j++)
+					retorno = 1;
+					j= i+1;
+					max = j+2;
+					for(;j < (max);j++)
 					{
 						if((array[j] < 'a' || array[j] > 'z') &&
-						(array[j] < 'A' || array[j] > 'Z'))
+						((array[j] < 'A' || array[j] > 'Z')))
 						{
-							retorno = 1;
+							retorno = 0;
 							break;
 						}
 					}
+					break;
 				}
 			}
 		}
@@ -1003,7 +1007,7 @@ int utn_getFileName(char* message, char* errorMessage, char* pResult, int attemp
 		{
 			printf("%s",message);
 			if(utn_myGets(bufferString,LIMITE_BUFFER_STRING) == 0 &&
-				strnlen(bufferString,sizeof(bufferString)-1)<=limit && utn_isValidFileName(pResult) == 1)
+				strnlen(bufferString,sizeof(bufferString)-1)<=limit && utn_isValidFileName(bufferString) == 1)
 			{
 				retorno = 0;
 				strncpy(pResult,bufferString,limit);

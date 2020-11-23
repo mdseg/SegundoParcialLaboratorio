@@ -19,6 +19,9 @@
 #define CONTROLLER_SORT_MENU "-------Menu de ordenamiento----------\nElija el tipo de ordenamiento deseado:\n1. Por Id ascendentemente.\n2. Por Id descendentemente.\n3. Por nombre ascendentemente.\n4. Por nombre descendentemente.\n5. Por horas trabajadas ascendentemente.\n6. Por horas trabajadas descendentemente.\n7. Por salario ascendentemente.\n8. Por salario descendentemente.\n9. Volver al menú anterior.\nSu opción --->"
 #define CONTROLLER_ISREPEATCUIT_ERROR "Ya existe un Cliente con ese CUIT.\n"
 #define CONTROLLER_CLIENTNOEXIST_ERROR "No existe un cliente que ese id.\n"
+#define CONTROLLER_CANCEL "Operación cancelada por el usuario.\n"
+#define CONTROLLER_CONFIRM "¿Confirma la operación? Elija 1 para confirmar o 2 para cancelar\n"
+
 
 int controller_loadClientsFromText(char* path , LinkedList* pArrayListClient);
 int controller_loadPostersFromText(char* path , LinkedList* pArrayListSales);
@@ -29,6 +32,7 @@ int controller_editClient(LinkedList* pArrayListClient, char* path);
 int controller_editSale(LinkedList* pArrayListSales,LinkedList* pArrayListClients, char* path);
 int controller_removeClient(LinkedList* pArrayListClient,char* path);
 int controller_printClients(LinkedList* pArrayListClient);
+int controller_printSales(LinkedList* pArrayListSales);
 int controller_sortClient(LinkedList* pArrayListClient);
 int controller_saveAsText(char* path , LinkedList* pArrayListClient);
 int controller_saveClienteAsText(char* path , LinkedList* pArrayListClient);
@@ -44,5 +48,5 @@ int controller_filterById(LinkedList* pArrayListClient);
 int controller_sumAllSalaries(LinkedList* pArrayListClient);
 int controller_countClients(LinkedList* pArrayListClient);
 int controller_isRepeatCuit(LinkedList* pArrayListClients,char* cuit);
-
+int controller_chargeSale(LinkedList* pArrayListSales, char* path);
 

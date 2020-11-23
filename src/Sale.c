@@ -186,42 +186,43 @@ int isValidStatus(int status)
  * \return int
  *
  */
-int sale_printOneSale(Sale* this)
+int sale_printOneSale(void* this)
 {
 	int output = -1;
-		char zoneString[LONG_ZONE];
-		char statusString[55];
-		int zone;
-		int status;
-		if (this != NULL)
+	Sale* bufferSale = (Sale*)this;
+	char zoneString[LONG_ZONE];
+	char statusString[55];
+	int zone;
+	int status;
+	if (this != NULL)
+	{
+		zone = sale_getZone(this);
+		status = sale_getStatus(this);
+		switch(zone)
 		{
-			zone = sale_getZone(this);
-			status = sale_getStatus(this);
-			switch(zone)
-			{
-				case 1:
-					strcpy(zoneString,"CABA");
-					break;
-				case 2:
-					strcpy(zoneString,"Zona Sur");
-					break;
-				case 3:
-					strcpy(zoneString,"Zona Oeste");
-					break;
-			}
-			switch(status)
-			{
-				case 1:
-					strcpy(statusString,"A cobrar");
-					break;
-				case 2:
-					strcpy(statusString,"Cobrada");
-					break;
-			}
-			printf(PRINT_ONE_SALE, sale_getIdSale(this),sale_getIdClient(this), sale_getPostersSold(this), sale_getFileName(this), zoneString,statusString);
-			output = 0;
+			case 1:
+				strcpy(zoneString,"CABA");
+				break;
+			case 2:
+				strcpy(zoneString,"Zona Sur");
+				break;
+			case 3:
+				strcpy(zoneString,"Zona Oeste");
+				break;
 		}
-		return output;
+		switch(status)
+		{
+			case 1:
+				strcpy(statusString,"A cobrar");
+				break;
+			case 2:
+				strcpy(statusString,"Cobrada");
+				break;
+		}
+		printf(PRINT_ONE_SALE, sale_getIdSale(bufferSale),sale_getIdClient(bufferSale), sale_getPostersSold(bufferSale), sale_getFileName(bufferSale), zoneString,statusString);
+		output = 0;
+	}
+	return output;
 }
 /** \brief imprime una tabla con los datos de un unico registro de empleado
  *
@@ -241,6 +242,20 @@ int sale_printOneSaleBanners(Sale* this)
 	}
 
 
+	return output;
+}
+int sale_isToPay(void* this)
+{
+	int output = -1;
+	Sale* bufferSale = (Sale*)this;
+	if (this != NULL)
+	{
+		output = 0;
+		if(sale_getStatus(this) == 1)
+		{
+			output = 1;
+		}
+	}
 	return output;
 }
 

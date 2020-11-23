@@ -56,6 +56,7 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order); // permite
 int ll_reduceFloat(LinkedList* this, int (*pFunc)(void*, float* flotante), float* pResultado);
 int ll_reduceInt(LinkedList* this, int (*pFunc)(void*), int* pResultado);
 int ll_filter(LinkedList* this, int (*pFunc)(void*));
+int ll_filterAdd(LinkedList* originalList,LinkedList* newList, int (*pFunc)(void*));
 int ll_map(LinkedList* this, int (*pFunc)(void*));
 int ll_mapPointerReturn(LinkedList* this, int (*pFunc)(void*,void* pPunteroInt));
 int ll_map2(LinkedList* this, int(*pFunc)(void*, char*), void* value);

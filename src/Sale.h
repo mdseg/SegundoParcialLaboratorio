@@ -56,6 +56,9 @@
 #define MODIFY_ZONE_ERROR "Error al intentar modificar la zona.\n"
 #define MODIFY_STATUS_SUCCESS "Estado modificado con éxito.\n"
 #define MODIFY_STATUS_ERROR "Error al intentar modificar el estado.\n"
+#define SALE_CHARGE_SUCCESS "Venta cobrada exitosamente.\n"
+#define SALE_CHARGE_ERROR "La venta o no existe, o no está como a pagar"
+
 
 
 //Informe
@@ -105,7 +108,7 @@ int sale_getStatus(Sale* this);
 void sale_delete(Sale* this);
 
 int sale_printOneSaleBanners(Sale* this);
-int sale_printOneSale(Sale* this);
+int sale_printOneSale(void* this);
 
 int isValidIdSale(int idSale);
 int isValidIdClient(int idClient);
@@ -113,6 +116,7 @@ int isValidPostersSold(int postersSold);
 int isValidFileName(char* fileName);
 int isValidZone(int zone);
 int isValidStatus(int status);
+int sale_isToPay(void* this);
 
 
 

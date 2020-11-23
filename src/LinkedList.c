@@ -710,6 +710,32 @@ int ll_filter(LinkedList* this, int (*pFunc)(void*))
 	}
 	return output;
 }
+int ll_filterAdd(LinkedList* originalList,LinkedList* newList, int (*pFunc)(void*))
+{
+	int output = -1;
+	int len = ll_len(originalList);
+	int newLen = ll_len(newList);
+	void* bufferElement;
+	int i;
+	if(originalList != NULL && newList != NULL && newLen == 0 && pFunc != NULL && len > 0)
+	{
+		for(i=0; i<len;i++)
+		{
+			bufferElement = ll_get(originalList, i);
+
+			if((pFunc(bufferElement) == 1))
+			{
+				ll_add(newList, bufferElement);
+
+			}
+		}
+		output = 0;
+	}
+
+	return output;
+}
+
+
 // Reduce una lista a un numero
 // obtener salarios de empleados
 int ll_reduceFloat(LinkedList* this, int (*pFunc)(void*, float* flotante), float* pResultado)
@@ -737,7 +763,7 @@ int ll_reduceFloat(LinkedList* this, int (*pFunc)(void*, float* flotante), float
 	return output;
 }
 // obtener edades de empleados
-/*
+
 int ll_reduceInt(LinkedList* this, int (*pFunc)(void*), int* pResultado)
 {
 	int output = -1;
@@ -746,11 +772,11 @@ int ll_reduceInt(LinkedList* this, int (*pFunc)(void*), int* pResultado)
 	void* pElement=NULL;
 	if(this!=NULL && pFunc!=NULL && len>-1)
 	{
-		output = ll_mapPointerReturn(this, pFunc);
+		pResultado += ll_mapPointerReturn(this, pFunc);
 	}
 	return output;
 }
-*/
+
 // No es necesario hacerla para el jueves
 int ll_findInt(LinkedList* this, int (*pFunc)(void*))
 {

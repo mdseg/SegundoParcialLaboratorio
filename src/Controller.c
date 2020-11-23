@@ -308,13 +308,18 @@ int controller_editSale(LinkedList* pArrayListSales,LinkedList* pArrayListClient
 	char fileName[LONG_NAME];
 	int zone;
 	int index;
+	int indexClient;
 	int op;
 	int flagCarga = FALSE;
+	LinkedList* newList = ll_newLinkedList();
 	Sale* bufferSale;
+	Client* bufferClient;
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	printf(ENTERING_MODIFY_SALE);
-	if(pArrayListClients != NULL && pArrayListSales != NULL)
+	if(pArrayListClients != NULL && pArrayListSales != NULL && newList != NULL)
 	{
+		ll_filterAdd(pArrayListSales, newList, sale_isToPay);
+		controller_printSales(newList);
 		if(utn_getInt(&idSale, INPUT_IDSALE, ERROR_IDSALE, IDSALE_MIN, IDSALE_MAX, ATTEMPTS) == 0)
 		{
 			index = controller_findSalesById(pArrayListSales, idSale);
@@ -322,6 +327,12 @@ int controller_editSale(LinkedList* pArrayListSales,LinkedList* pArrayListClient
 			if(index != -1)
 			{
 				bufferSale = ll_get(pArrayListSales, index);
+				idClient = sale_getIdClient(bufferSale);
+				indexClient = controller_findClientById(pArrayListClients, idClient);
+				bufferClient = ll_get(pArrayListClients,indexClient);
+				printf("Cliente al que pertenece el aviso:\n");
+				client_printOneClientBanners(bufferClient);
+				printf("Detalles del aviso:\n");
 				sale_printOneSaleBanners(bufferSale);
 				do
 				{
@@ -481,7 +492,29 @@ int controller_printClients(LinkedList* pArrayListClient)
 	}
     return output;
 }
+/** \brief Listar empleados
+ *
+ * \param path char*
+ * \param pArrayListEnvio LinkedList*
+ * \return int
+ *
+ */
 
+int controller_printSales(LinkedList* pArrayListSales)
+{
+	int output = -1;
+	int len = ll_len(pArrayListSales);
+	printf(ENTERING_LIST_SALE);
+	if(pArrayListSales != NULL && len > 0)
+	{
+		printf(PRINT_ONE_SALE_TOP);
+		ll_map(pArrayListSales, sale_printOneSale);
+		printf(PRINT_ONE_SALE_BOTTOM);
+
+		output = 0;
+	}
+    return output;
+}
 /** \brief muestra un menu para que el usuario seleccione por que campo y en que orden desea ordenar la lista de empleados
  *
  * \param pArrayListEnvio LinkedList*
@@ -729,6 +762,48 @@ int controller_findSalesById(LinkedList* pArrayListSales, int id)
 			{
 				output = i;
 				break;
+			}
+		}
+	}
+	return output;
+}
+int controller_chargeSale(LinkedList* pArrayListSales, char* path)
+{
+	int output = -1;
+	int idSale;
+	int op;
+	int index;
+	LinkedList* newList = ll_newLinkedList();
+	Sale* bufferSale;
+	if(pArrayListSales != NULL && newList != NULL)
+	{
+		ll_filterAdd(pArrayListSales, newList, sale_isToPay);
+		controller_printSales(newList);
+		if(utn_getInt(&idSale, INPUT_IDSALE, ERROR_IDSALE, IDSALE_MIN, IDSALE_MAX, ATTEMPTS) == 0)
+		{
+			index = controller_findSalesById(pArrayListSales, idSale);
+			bufferSale = ll_get(pArrayListSales, index);
+			if(ll_contains(newList, bufferSale) == 1)
+			{
+				if(utn_getInt(&op, CONTROLLER_CONFIRM, MENU_SELECT_ERROR, 1, 2, ATTEMPTS) == 0)
+				{
+					switch(op)
+					{
+						case 1:
+							sale_setStatus(bufferSale, 2);
+							controller_saveSalesAsText(path, pArrayListSales);
+							printf(SALE_CHARGE_SUCCESS);
+							break;
+						case 2:
+							printf(CONTROLLER_CANCEL);
+							break;
+					}
+					output = 0;
+				}
+			}
+			else
+			{
+				printf(SALE_CHARGE_ERROR);
 			}
 		}
 	}

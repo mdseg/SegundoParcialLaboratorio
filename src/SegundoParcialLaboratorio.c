@@ -29,12 +29,12 @@ int main()
    controller_loadClientsFromText(TEXT_FILE,listClient);
    controller_loadPostersFromText(TEXT_SALES_FILE, listSales);
 
-   Sale* prueba = ll_get(listSales, 1);
-   sale_printOneSaleBanners(prueba);
-   controller_editSale(listSales, listClient, TEXT_SALES_FILE);
 
-
-
+   //LinkedList* newList = ll_newLinkedList();
+   //ll_filterAdd(listSales, newList, sale_isToPay);
+   //controller_printSales(newList);
+   //controller_editSale(listSales, listClient, TEXT_SALES_FILE);
+   controller_chargeSale(listSales, TEXT_SALES_FILE);
     do{
     	utn_getInt(&option, MAIN_MENU, ERROR_MENU, 1, 13, ATTEMPTS);
         switch(option)
