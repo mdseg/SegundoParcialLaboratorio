@@ -109,6 +109,8 @@ void sale_delete(Sale* this);
 
 int sale_printOneSaleBanners(Sale* this);
 int sale_printOneSale(void* this);
+int sale_clientCheckSale(void* this, int idClient);
+int sale_sumPosters(void* this, int idClient);
 
 int isValidIdSale(int idSale);
 int isValidIdClient(int idClient);
@@ -117,8 +119,7 @@ int isValidFileName(char* fileName);
 int isValidZone(int zone);
 int isValidStatus(int status);
 int sale_isToPay(void* this);
-
-
+int sale_isPaid(void* this);
 
 
 

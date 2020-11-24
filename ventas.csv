@@ -1,7 +1,7 @@
 idVenta,idCliente,cantidadVendida,nombreArchivo,zona,estado
 1,1,20,gatos.jpg,1,1
 2,1,40,auto.jpg,3,2
-3,2,50,ferreteria.gif,2,1
+3,2,50,ferreteria.gif,2,2
 4,3,10,boliche.jpg,3,1
-5,2,20,hola.txt,1,1
+5,2,20,hola.txt,1,2
 6,5,30,chile.txt,2,1

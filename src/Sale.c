@@ -251,12 +251,54 @@ int sale_isToPay(void* this)
 	if (this != NULL)
 	{
 		output = 0;
-		if(sale_getStatus(this) == 1)
+		if(sale_getStatus(bufferSale) == 1)
 		{
 			output = 1;
 		}
 	}
 	return output;
 }
+int sale_isPaid(void* this)
+{
+	int output = -1;
+	Sale* bufferSale = (Sale*)this;
+	if (this != NULL)
+	{
+		output = 0;
+		if(sale_getStatus(bufferSale) == 2)
+		{
+			output = 1;
+		}
+	}
+	return output;
+}
+int sale_sumPosters(void* this, int idClient)
+{
+	int output = 0;
+	if(this != NULL && idClient > 0)
+	{
+		if(sale_getIdClient(this) == idClient)
+		{
+			output = sale_getPostersSold(this);
+		}
+	}
+	return output;
+}
+int sale_clientCheckSale(void* this, int idClient)
+{
+	int output = -1;
+	Sale* bufferSale = (Sale*)this;
+	if (bufferSale != NULL && idClient > 0)
+	{
+		output = 0;
+		if(sale_getIdClient(this) == idClient)
+		{
+			output++;
+		}
+	}
+	return output;
+}
+
+
 
 

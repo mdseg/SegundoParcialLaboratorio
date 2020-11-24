@@ -54,7 +54,7 @@ LinkedList* ll_subList(LinkedList* this,int from,int to); // Crea una sublista d
 LinkedList* ll_clone(LinkedList* this); // Duplica la lista en memoria generando una lista nueva
 int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order); // permite ordenar la lista
 int ll_reduceFloat(LinkedList* this, int (*pFunc)(void*, float* flotante), float* pResultado);
-int ll_reduceInt(LinkedList* this, int (*pFunc)(void*), int* pResultado);
+int ll_reduceInt(LinkedList* this, int (*pFunc)(void*,int value), int id);
 int ll_filter(LinkedList* this, int (*pFunc)(void*));
 int ll_filterAdd(LinkedList* originalList,LinkedList* newList, int (*pFunc)(void*));
 int ll_map(LinkedList* this, int (*pFunc)(void*));

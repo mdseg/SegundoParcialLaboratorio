@@ -764,16 +764,28 @@ int ll_reduceFloat(LinkedList* this, int (*pFunc)(void*, float* flotante), float
 }
 // obtener edades de empleados
 
-int ll_reduceInt(LinkedList* this, int (*pFunc)(void*), int* pResultado)
+int ll_reduceInt(LinkedList* this, int (*pFunc)(void*,int value), int id)
 {
-	int output = -1;
 	int len = ll_len(this);
-	int acc=0;
+	int acumulator=-1;
 	void* pElement=NULL;
 	if(this!=NULL && pFunc!=NULL && len>-1)
 	{
-		pResultado += ll_mapPointerReturn(this, pFunc);
+		acumulator = 0;
+		for(int i = 0; i<len;i++)
+		{
+			pElement = ll_get(this, i);
+			acumulator+= pFunc(pElement, id);
+		}
 	}
+	return acumulator;
+}
+
+
+int ll_mapPointerReturn(LinkedList* this, int (*pFunc)(void*,void* pPunteroInt))
+{
+	int output = -1;
+	int acumulator;
 	return output;
 }
 

@@ -809,6 +809,8 @@ int controller_chargeSale(LinkedList* pArrayListSales, char* path)
 	}
 	return output;
 }
+
+
 /*
 int controller_filterById(LinkedList* pArrayListEnvio)
 {

@@ -4,6 +4,7 @@
 #include "Controller.h"
 #include "Client.h"
 #include "Sale.h"
+#include "Report.h"
 #include "utn.h"
 
 
@@ -18,6 +19,8 @@
 #define TEXT_FILE "data.txt"
 #define TEXT_DEBUG_FILE "otro.csv"
 #define TEXT_SALES_FILE "ventas.csv"
+#define TEXT_REPORT_TOPAY "ventas_acobrar.txt"
+#define TEXT_REPORT_SALES "ventas_cobradas.txt"
 
 int main()
 {
@@ -34,7 +37,9 @@ int main()
    //ll_filterAdd(listSales, newList, sale_isToPay);
    //controller_printSales(newList);
    //controller_editSale(listSales, listClient, TEXT_SALES_FILE);
-   controller_chargeSale(listSales, TEXT_SALES_FILE);
+   //controller_chargeSale(listSales, TEXT_SALES_FILE);
+   report_generatePayReport(listClient, listSales,TEXT_REPORT_TOPAY);
+   report_generateSalesReport(listClient, listSales, TEXT_REPORT_SALES);
     do{
     	utn_getInt(&option, MAIN_MENU, ERROR_MENU, 1, 13, ATTEMPTS);
         switch(option)
