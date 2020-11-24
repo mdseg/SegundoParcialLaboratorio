@@ -38,8 +38,9 @@ int main()
    //controller_printSales(newList);
    //controller_editSale(listSales, listClient, TEXT_SALES_FILE);
    //controller_chargeSale(listSales, TEXT_SALES_FILE);
-   report_generatePayReport(listClient, listSales,TEXT_REPORT_TOPAY);
-   report_generateSalesReport(listClient, listSales, TEXT_REPORT_SALES);
+   //report_generatePayReport(listClient, listSales,TEXT_REPORT_TOPAY);
+   //report_generateSalesReport(listClient, listSales, TEXT_REPORT_SALES);
+   report_findClientPostersSold(listClient, listSales);
     do{
     	utn_getInt(&option, MAIN_MENU, ERROR_MENU, 1, 13, ATTEMPTS);
         switch(option)

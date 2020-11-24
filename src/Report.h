@@ -18,4 +18,5 @@ int report_generatePayReport(LinkedList* pArrayClientList, LinkedList* pArraySal
 int report_generateSalesReport(LinkedList* pArrayClientList, LinkedList* pArraySalesList,char* path);
 int report_CreatePaidFile(LinkedList* pArrayClientList,char* path, char* columName);
 int report_CreateToPayFile(LinkedList* pArrayClientList,char* path, char* columName);
+int report_findClientPostersSold(LinkedList* pArrayClientList,LinkedList* pArraySalesList);
 #endif /* REPORT_H_ */

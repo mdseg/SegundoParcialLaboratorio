@@ -23,6 +23,7 @@ int report_findClientPostersSold(LinkedList* pArrayClientList,LinkedList* pArray
 				{
 					ll_add(searchList, bufferClient);
 					topValue = acumulator;
+					flagFirstClient = FALSE;
 				}
 				else
 				{
@@ -44,6 +45,7 @@ int report_findClientPostersSold(LinkedList* pArrayClientList,LinkedList* pArray
 
 
 		}
+		controller_printClients(searchList);
 		output = 0;
 
 
