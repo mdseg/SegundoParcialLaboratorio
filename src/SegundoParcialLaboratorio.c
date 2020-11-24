@@ -17,9 +17,9 @@
 #define LIST_OVERWRITE_USER_CANCEL "Operación cancelada por el usuario.\n"
 #define ATTEMPTS 5
 #define BINARY_FILE "otro.csv"
-#define TEXT_FILE "data.txt"
+#define TEXT_CLIENTS_FILE "clientes.txt"
 #define TEXT_DEBUG_FILE "otro.csv"
-#define TEXT_SALES_FILE "ventas.csv"
+#define TEXT_SALES_FILE "ventas.txt"
 #define TEXT_REPORT_TOPAY "ventas_acobrar.txt"
 #define TEXT_REPORT_SALES "ventas_cobradas.txt"
 
@@ -30,7 +30,7 @@ int main()
    LinkedList* listSales = ll_newLinkedList();
 
    //Carga Clientes
-   if(controller_loadClientsFromText(TEXT_FILE,listClient) == 0 &&
+   if(controller_loadClientsFromText(TEXT_CLIENTS_FILE,listClient) == 0 &&
 		   controller_loadPostersFromText(TEXT_SALES_FILE, listSales) == 0)
    {
        do{
@@ -38,7 +38,7 @@ int main()
 		   switch(option)
 		   {
 			   case 1:
-				   controller_addClient(listClient, TEXT_FILE);
+				   controller_addClient(listClient, TEXT_CLIENTS_FILE);
 				   break;
 			   case 2:
 				   controller_addSale(listSales, listClient, TEXT_SALES_FILE);

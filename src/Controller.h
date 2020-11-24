@@ -23,14 +23,14 @@
 #define CONTROLLER_CONFIRM "¿Confirma la operación? Elija 1 para confirmar o 2 para cancelar\n"
 
 
-int controller_loadClientsFromText(char* path , LinkedList* pArrayListClient);
+int controller_loadClientsFromText(char* path , LinkedList* pArrayListClients);
 int controller_loadPostersFromText(char* path , LinkedList* pArrayListSales);
 int controller_loadFromBinary(char* path , LinkedList* pArrayListClient);
-int controller_addClient(LinkedList* pArrayListClient, char* path);
+int controller_addClient(LinkedList* pArrayListClients, char* path);
 int controller_addSale(LinkedList* pArrayListSales, LinkedList* pArrayListClients, char* path);
 int controller_editClient(LinkedList* pArrayListClient, char* path);
 int controller_editSale(LinkedList* pArrayListSales,LinkedList* pArrayListClients, char* path);
-int controller_removeClient(LinkedList* pArrayListClient,char* path);
+int controller_removeClient(LinkedList* pArrayListClients,char* path);
 int controller_printClients(LinkedList* pArrayListClient);
 int controller_printSales(LinkedList* pArrayListSales);
 int controller_sortClient(LinkedList* pArrayListClient);
@@ -40,7 +40,7 @@ int controller_saveSalesAsText(char* path , LinkedList* pArrayListSale);
 int controller_saveAsBinary(char* path , LinkedList* pArrayListClient);
 int controller_getFreeIndex(LinkedList* pArrayListClient);
 int controller_saveBinaryPrueba(char* path);
-int controller_findClientById(LinkedList* pArrayListClient, int id);
+int controller_findClientById(LinkedList* pArrayListClients, int id);
 int controller_findSalesById(LinkedList* pArrayListSales, int id);
 int controller_getNewIdCliente(LinkedList* pArrayListClient);
 int controller_getNewIdSale(LinkedList* pArrayListSale);

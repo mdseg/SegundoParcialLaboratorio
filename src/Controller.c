@@ -18,28 +18,28 @@
 
 
 
-/** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
+/** \brief Carga los datos de los clientes desde el archivo clientes.txt (modo texto).
  *
  * \param path char*
- * \param pArrayListEnvio LinkedList*
+ * \param pArrayListClients LinkedList*
  * \return int
  *
  */
-int controller_loadClientsFromText(char* path , LinkedList* pArrayListEnvio)
+int controller_loadClientsFromText(char* path , LinkedList* pArrayListClients)
 {
 	int output = -1;
 	FILE* pFile;
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	printf(CONTROLLER_LOAD_LIST_TEXT);
-	ll_clear(pArrayListEnvio);
-	if(pArrayListEnvio != NULL)
+	ll_clear(pArrayListClients);
+	if(pArrayListClients != NULL)
 	{
 		pFile = fopen(path,"r");
 		if(pFile == NULL)
 		{
 			printf(CONTROLLER_LOAD_LIST_NO_FILE);
 		}
-		else if(parser_ClientFromText(pFile, pArrayListEnvio) == 0)
+		else if(parser_ClientFromText(pFile, pArrayListClients) == 0)
 		{
 			printf(CONTROLLER_LOAD_LIST_TEXT_SUCCESS);
 			output = 0;
@@ -54,10 +54,10 @@ int controller_loadClientsFromText(char* path , LinkedList* pArrayListEnvio)
     return output;
 }
 
-/** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
+/** \brief Carga los datos de las ventas desde el archivo ventas.txt (modo texto).
  *
  * \param path char*
- * \param pArrayListEnvio LinkedList*
+ * \param pArrayListSales LinkedList*
  * \return int
  *
  */
@@ -91,15 +91,15 @@ int controller_loadPostersFromText(char* path , LinkedList* pArrayListSales)
 }
 
 
-/** \brief Alta de empleados
+/** \brief Alta de clientes
  *
+ * \param pArrayListClients LinkedList*
  * \param path char*
- * \param pArrayListEnvio LinkedList*
  * \return int
  *
  */
 
-int controller_addClient(LinkedList* pArrayListClient, char* path)
+int controller_addClient(LinkedList* pArrayListClients, char* path)
 {
 	int output = -1;
 	int idClient;
@@ -115,17 +115,17 @@ int controller_addClient(LinkedList* pArrayListClient, char* path)
 		utn_getString(INPUT_LASTNAME, ERROR_LASTNAME, lastName, ATTEMPTS, LONG_NAME) == 0 &&
 		utn_getCuit(INPUT_CUIT, ERROR_CUIT, cuit,ATTEMPTS, LONG_CUIT) == 0)
 	{
-		idClient = controller_getNewIdCliente(pArrayListClient);
+		idClient = controller_getNewIdCliente(pArrayListClients);
 		if(isValidIdClient(idClient) == 1 )
 		{
-			if(controller_isRepeatCuit(pArrayListClient, cuit) == 0)
+			if(controller_isRepeatCuit(pArrayListClients, cuit) == 0)
 			{
 				sprintf(idClientString,"%d",idClient);
 				bufferClient = client_newString(idClientString,name,lastName,cuit);
-				ll_add(pArrayListClient, bufferClient);
+				ll_add(pArrayListClients, bufferClient);
 				printf(CREATE_CLIENT_SUCCESS);
 				client_printOneClientBanners(bufferClient);
-				controller_saveClienteAsText(path, pArrayListClient);
+				controller_saveClienteAsText(path, pArrayListClients);
 				output = 0;
 			}
 			else
@@ -138,14 +138,14 @@ int controller_addClient(LinkedList* pArrayListClient, char* path)
 	}
     return output;
 }
-/** \brief Alta de empleados
+/** \brief Alta de Ventas
  *
- * \param path char*
- * \param pArrayListEnvio LinkedList*
- * \return int
+ * \param pArrayListSales LinkedList*
+ * \param pArrayListClients LinkedList*
+ * \param path char* archivo que será modificada
+ * \return 0 si ok // -1 si error
  *
  */
-
 int controller_addSale(LinkedList* pArrayListSales,LinkedList* pArrayListClients, char* path)
 {
 	int output = -1;
@@ -194,19 +194,11 @@ int controller_addSale(LinkedList* pArrayListSales,LinkedList* pArrayListClients
     return output;
 }
 
-/** \brief show a menu to change Cliente nombre, apellido or CUIT
-* \param list Cliente*
-* \param len int lenght of the Cliente* list
+/** \brief muestra un menu para modificar Cliente nombre, apellido or CUIT
+* \param pArrayListClient LinkedList*
+* \param path char*
 * \return int Return (-1) if Error - (0) if Ok
 */
-
-/** \brief Modificar datos de empleado
- *
- * \param path char*
- * \param pArrayListEnvio LinkedList*
- * \return int
- *
- */
 int controller_editClient(LinkedList* pArrayListClient, char* path)
 {
 	int output = -1;
@@ -293,13 +285,12 @@ int controller_editClient(LinkedList* pArrayListClient, char* path)
     return output;
 }
 
-/** \brief Modificar datos de empleado
- *
- * \param path char*
- * \param pArrayListEnvio LinkedList*
- * \return int
- *
- */
+/** \brief muestra un menu para modificar los campos de la venta siempre y cuando esté como a cobrar
+* \param pArrayListSales LinkedList*
+* \param pArrayListClients LinkedList*
+* \param path char*
+* \return int Return (-1) if Error - (0) if Ok
+*/
 int controller_editSale(LinkedList* pArrayListSales,LinkedList* pArrayListClients, char* path)
 {
 	int output = -1;
@@ -419,8 +410,7 @@ int controller_editSale(LinkedList* pArrayListSales,LinkedList* pArrayListClient
  * \return int
  *
  */
-
-int controller_removeClient(LinkedList* pArrayListClient, char* path)
+int controller_removeClient(LinkedList* pArrayListClients, char* path)
 {
 	int output = -1;
 	int id;
@@ -430,10 +420,10 @@ int controller_removeClient(LinkedList* pArrayListClient, char* path)
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	printf(ENTERING_REMOVE_CLIENT);
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
-	if(ll_len(pArrayListClient) > 0 && utn_getInt(&id, INPUT_ID, ERROR_IDCLIENTE, IDCLIENTE_MIN, IDCLIENTE_MAX, ATTEMPTS) == 0)
+	if(ll_len(pArrayListClients) > 0 && utn_getInt(&id, INPUT_ID, ERROR_IDCLIENTE, IDCLIENTE_MIN, IDCLIENTE_MAX, ATTEMPTS) == 0)
 	{
-		index = controller_findClientById(pArrayListClient, id);
-		bufferClient = ll_get(pArrayListClient, index);
+		index = controller_findClientById(pArrayListClients, id);
+		bufferClient = ll_get(pArrayListClients, index);
 		if (index != -1 && bufferClient != NULL)
 		{
 			if(client_printOneClientBanners(bufferClient) == 0 &&
@@ -441,9 +431,9 @@ int controller_removeClient(LinkedList* pArrayListClient, char* path)
 			{
 				if(op == 1)
 				{
-					ll_remove(pArrayListClient, index);
+					ll_remove(pArrayListClients, index);
 					client_delete(bufferClient);
-					controller_saveClienteAsText(path, pArrayListClient);
+					controller_saveClienteAsText(path, pArrayListClients);
 					printf(DELETE_CLIENT_SUCCESS);
 				}
 				else
@@ -464,42 +454,45 @@ int controller_removeClient(LinkedList* pArrayListClient, char* path)
 	}
 	return output;
 }
+/** \brief toma una lista de empleados y evalua que no haya CUIT repetidos
+ *
+ * \param pArrayListClients LinkedList*
+ * \param cuit char*
+ * \return ll_map2(pArrayListClients, client_isRepeatCuit, cuit) si ok // -1 si error
+ *
+ */
 int controller_isRepeatCuit(LinkedList* pArrayListClients,char* cuit)
 {
 	int output = -1;
 	output = ll_map2(pArrayListClients, client_isRepeatCuit, cuit);
 	return output;
 }
-/** \brief Listar empleados
+/** \brief imprime todos los clientes con un encabezado añadido
  *
- * \param path char*
- * \param pArrayListEnvio LinkedList*
+ * \param pArrayListClient LinkedList*
  * \return int
  *
  */
-
-int controller_printClients(LinkedList* pArrayListClient)
+int controller_printClients(LinkedList* pArrayListClients)
 {
 	int output = -1;
-	int len = ll_len(pArrayListClient);
-	if(pArrayListClient != NULL && len > 0)
+	int len = ll_len(pArrayListClients);
+	if(pArrayListClients != NULL && len > 0)
 	{
 		printf(PRINT_ONE_REGISTRY_TOP);
-		ll_map(pArrayListClient, client_printOneClient);
+		ll_map(pArrayListClients, client_printOneClient);
 		printf(PRINT_ONE_REGISTRY_BOTTOM);
 
 		output = 0;
 	}
     return output;
 }
-/** \brief Listar empleados
+/** \brief imprime todas las ventas con un encabezado añadido
  *
- * \param path char*
- * \param pArrayListEnvio LinkedList*
+ * \param pArrayListSales LinkedList*
  * \return int
  *
  */
-
 int controller_printSales(LinkedList* pArrayListSales)
 {
 	int output = -1;
@@ -578,15 +571,16 @@ int controller_sortEnvio(LinkedList* pArrayListEnvio)
 
 }
 
-/** \brief Guarda los datos de los empleados en el archivo data.csv (modo texto).
+/**
+ * \brief Guarda los datos de los clientes en el archivo clientes.txt (modo texto).
  *
  * \param path char*
- * \param pArrayListEnvio LinkedList*
+ * \param pArrayListClient LinkedList*
  * \return int
  *
  */
 
-int controller_saveClienteAsText(char* path , LinkedList* pArrayListClient)
+int controller_saveClienteAsText(char* path , LinkedList* pArrayListClients)
 {
 	int output = -1;
 	int len;
@@ -595,16 +589,16 @@ int controller_saveClienteAsText(char* path , LinkedList* pArrayListClient)
 	FILE* pFile;
 	pFile = fopen(path,"w");
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
-	if(path != NULL && pArrayListClient != NULL)
+	if(path != NULL && pArrayListClients != NULL)
 	{
 		if(pFile != NULL)
 		{
 
-			len = ll_len(pArrayListClient);
+			len = ll_len(pArrayListClients);
 			fprintf(pFile,CONTROLLER_TXT_CLIENT_TOP);
 			for (i = 0; i < len;i++)
 			{
-				bufferClient = ll_get(pArrayListClient, i);
+				bufferClient = ll_get(pArrayListClients, i);
 				fprintf(pFile,"%d,%s,%s,%s\n",client_getIdClient(bufferClient),client_getName(bufferClient),client_getLastName(bufferClient),client_getCUIT(bufferClient));
 			}
 			fclose(pFile);
@@ -619,14 +613,13 @@ int controller_saveClienteAsText(char* path , LinkedList* pArrayListClient)
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
     return output;
 }
-/** \brief Guarda los datos de los empleados en el archivo data.csv (modo texto).
+/** \brief Guarda los datos de las ventas en el archivo ventas.txt (modo texto).
  *
  * \param path char*
  * \param pArrayListEnvio LinkedList*
  * \return int
  *
  */
-
 int controller_saveSalesAsText(char* path , LinkedList* pArrayListSale)
 {
 	int output = -1;
@@ -661,20 +654,13 @@ int controller_saveSalesAsText(char* path , LinkedList* pArrayListSale)
     return output;
 }
 
-/** \brief Guarda los datos de los empleados en el archivo data.csv (modo binario).
- *
- * \param path char*
- * \param pArrayListEnvio LinkedList*
- * \return int
- *
- */
-/** \brief Busca un nuevo Id disponible en una lista enlazada de empleados y lo devuelve por valor.
- *
- * \param pArrayListEnvio LinkedList*
- * \return int
- *
- */
 
+/** \brief Busca un nuevo Id disponible en una lista enlazada de clientes y lo devuelve por valor.
+ *
+ * \param pArrayListEnvio LinkedList*
+ * \return int
+ *
+ */
 int controller_getNewIdCliente(LinkedList* pArrayListClient)
 {
 	int output = -1;
@@ -689,7 +675,7 @@ int controller_getNewIdCliente(LinkedList* pArrayListClient)
 
 	return output;
 }
-/** \brief Busca un nuevo Id disponible en una lista enlazada de empleados y lo devuelve por valor.
+/** \brief Busca un nuevo Id disponible en una lista enlazada de ventas y lo devuelve por valor.
  *
  * \param pArrayListEnvio LinkedList*
  * \return int
@@ -710,26 +696,26 @@ int controller_getNewIdSale(LinkedList* pArrayListSale)
 
 	return output;
 }
-/** \brief Busca un nuevo dato del tipo Empleado en una lista enlazada tomando como parametro el id retornando el valor por referencias.
+/** \brief Busca un nuevo dato del tipo Client* en una lista enlazada tomando como parametro el id retornando el valor por referencias.
  *
- * \param pArrayListEnvio LinkedList*
+ * \param pArrayListClients LinkedList*
  * \param int id
  * \return int
  *
  */
-int controller_findClientById(LinkedList* pArrayListClient, int id)
+int controller_findClientById(LinkedList* pArrayListClients, int id)
 {
 	int output = -1;
 	int len;
 	int i;
 	Client* bufferClient;
-	if (pArrayListClient != NULL && isValidIdClient(id) == 1)
+	if (pArrayListClients != NULL && isValidIdClient(id) == 1)
 	{
 		output = 0;
-		len = ll_len(pArrayListClient);
+		len = ll_len(pArrayListClients);
 		for(i = 0; i < len; i++)
 		{
-			bufferClient = ll_get(pArrayListClient, i);
+			bufferClient = ll_get(pArrayListClients, i);
 			if(client_getIdClient(bufferClient) == id)
 			{
 				output = i;
@@ -739,9 +725,9 @@ int controller_findClientById(LinkedList* pArrayListClient, int id)
 	}
 	return output;
 }
-/** \brief Busca un nuevo dato del tipo Empleado en una lista enlazada tomando como parametro el id retornando el valor por referencias.
+/** \brief Busca un nuevo dato del tipo Sale* en una lista enlazada tomando como parametro el id retornando el valor por referencias.
  *
- * \param pArrayListEnvio LinkedList*
+ * \param pArrayListSales LinkedList*
  * \param int id
  * \return int
  *
@@ -768,6 +754,13 @@ int controller_findSalesById(LinkedList* pArrayListSales, int id)
 	}
 	return output;
 }
+/** \brief modifica el valor de una venta a 'cobrada'
+ *
+ * \param pArrayListSales LinkedList*
+ * \param int id
+ * \return int
+ *
+ */
 int controller_chargeSale(LinkedList* pArrayListSales, char* path)
 {
 	int output = -1;
@@ -812,44 +805,6 @@ int controller_chargeSale(LinkedList* pArrayListSales, char* path)
 }
 
 
-/*
-int controller_filterById(LinkedList* pArrayListEnvio)
-{
-	int output = -1;
-	if (ll_filter(pArrayListEnvio, envios_filterBySalary) == 0)
-	{
-		printf("ok");
-	}
 
-	return output;
-}
-int controller_sumAllSalaries(LinkedList* pArrayListEnvio)
-{
-	int output = -1;
-	float salarios;
-	ll_reduceFloat(pArrayListEnvio, envios_sumAllSalaries, &salarios);
-	if (salarios >= 0)
-	{
-		//salarios = salarios / 1000;
-		printf("La suma de todos los salarios es: %.2f", salarios);
-	}
-
-	return output;
-}
-int controller_countEnvios(LinkedList* pArrayListEnvio)
-{
-	int output = -1;
-	int conteo = 0;
-	ll_reduceInt(pArrayListEnvio, envios_countEnvios, &conteo);
-	if (conteo >= 0)
-	{
-		//salarios = salarios / 1000;
-		printf("La suma de todos los salarios es: %d", conteo);
-	}
-
-	return output;
-}
-
-*/
 
 

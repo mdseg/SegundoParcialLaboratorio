@@ -1,5 +1,13 @@
 #include "Report.h"
 
+/** \brief crea un reporte con una lista de clientes con el maximo o el minimo de afiches vendidos
+ *
+ * \param pArrayClientList LinkedList*
+ * \param pArraySalesList LinkedList*
+ * \param int order 1 - busca máximo // 2 busca mínimo
+ * \return 0 si ok // -1 si error
+ *
+ */
 int report_findClientPostersSold(LinkedList* pArrayClientList,LinkedList* pArraySalesList, int order)
 {
 	int output = -1;
@@ -53,7 +61,14 @@ int report_findClientPostersSold(LinkedList* pArrayClientList,LinkedList* pArray
 	return output;
 
 }
-
+/** \brief Genera un informe de ventas a cobrar
+ *
+ * \param pArrayClientList LinkedList*
+ * \param pArraySalesList LinkedList*
+ * \param path char*
+ * \return 0 si ok // -1 si error
+ *
+ */
 int report_generatePayReport(LinkedList* pArrayClientList, LinkedList* pArraySalesList,char* path)
 {
 	int output = -1;
@@ -79,6 +94,14 @@ int report_generatePayReport(LinkedList* pArrayClientList, LinkedList* pArraySal
 	}
 	return output;
 }
+/** \brief Genera un informe de ventas cobradas
+ *
+ * \param pArrayClientList LinkedList*
+ * \param pArraySalesList LinkedList*
+ * \param path char*
+ * \return 0 si ok // -1 si error
+ *
+ */
 int report_generateSalesReport(LinkedList* pArrayClientList, LinkedList* pArraySalesList,char* path)
 {
 	int output = -1;
@@ -102,6 +125,14 @@ int report_generateSalesReport(LinkedList* pArrayClientList, LinkedList* pArrayS
 	}
 	return output;
 }
+/** \brief crea el archivo donde se guardara el reporte de ventas a cobrar
+ *
+ * \param pArrayClientList LinkedList*
+ * \param path char*
+ * \param columnName char*
+ * \return 0 si ok // -1 si error
+ *
+ */
 int report_CreateToPayFile(LinkedList* pArrayClientList,char* path, char* columName)
 {
 	int output = -1;
@@ -137,6 +168,14 @@ int report_CreateToPayFile(LinkedList* pArrayClientList,char* path, char* columN
 
 
 }
+/** \brief crea el archivo donde se guardara el reporte de ventas cobradas
+ *
+ * \param pArrayClientList LinkedList*
+ * \param path char*
+ * \param columnName char*
+ * \return 0 si ok // -1 si error
+ *
+ */
 int report_CreatePaidFile(LinkedList* pArrayClientList,char* path, char* columName)
 {
 	int output = -1;
@@ -171,14 +210,20 @@ int report_CreatePaidFile(LinkedList* pArrayClientList,char* path, char* columNa
 	return output;
 
 }
-
+/** \brief crea una lista de ventas que compartan la mayor/menor cantidad de afiches vendidos
+ *
+ * \param pArrayClientList LinkedList*
+ * \param pArraySalesList LinkedList*
+ * \param order int 1 - busca el mayor // 2 - busca el menor
+ * \return 0 si ok // -1 si error
+ *
+ */
 int report_findSaleMostPosters(LinkedList* pArrayClientList,LinkedList* pArraySalesList, int order)
 {
 	int output = -1;
 	int salesLen;
 	int topValue;
 	int flagFirstSale = TRUE;
-	Client* bufferClient;
 	Sale* bufferSale;
 	LinkedList* bufferSalesList = ll_newLinkedList();
 	LinkedList* searchList = ll_newLinkedList();
@@ -210,15 +255,9 @@ int report_findSaleMostPosters(LinkedList* pArrayClientList,LinkedList* pArraySa
 					{
 						ll_add(searchList, bufferSale);
 					}
-
 				}
-
-
 			}
-
-
 		}
-
 		report_printSalesWithClient(pArrayClientList, searchList);
 		output = 0;
 
@@ -228,10 +267,10 @@ int report_findSaleMostPosters(LinkedList* pArrayClientList,LinkedList* pArraySa
 
 }
 
-/** \brief Listar empleados
+/** \brief Imprime el id de una venta junto con el CUIT del cliente asociado a la misma
  *
- * \param path char*
- * \param pArrayListEnvio LinkedList*
+ * \param pArrayListClients LinkedList*
+ * \param pArrayListSales LinkedList*
  * \return int
  *
  */
