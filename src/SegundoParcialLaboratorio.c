@@ -34,7 +34,7 @@ int main()
 		   controller_loadPostersFromText(TEXT_SALES_FILE, listSales) == 0)
    {
        do{
-		   utn_getInt(&option, MAIN_MENU, ERROR_MENU, 1, 13, ATTEMPTS);
+		   utn_getInt(&option, MAIN_MENU, ERROR_MENU, 1, 8, ATTEMPTS);
 		   switch(option)
 		   {
 			   case 1:
@@ -56,11 +56,11 @@ int main()
 				   report_CreateToPayFile(listClient, TEXT_REPORT_TOPAY, "VentasACobrar");
 				   break;
 			   case 7:
-				   printf("Cliente o clientes a los que se le vendieron mas afiches.\n");
+				   printf(REPORT_CLIENTS_MORE_POSTERS);
 				   report_findClientPostersSold(listClient, listSales, 1);
-				   printf("Cliente o clientes a los que se le vendieron menos afiches.\n");
+				   printf(REPORT_CLIENTS_LESS_POSTERS);
 				   report_findClientPostersSold(listClient, listSales, 2);
-				   printf("Ventas con mayor cantidad de unidades.\n");
+				   printf(REPORT_SALES_MOST_POSTERS);
 				   report_findSaleMostPosters(listClient, listSales,1);
 				   break;
 		   }

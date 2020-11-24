@@ -76,7 +76,12 @@ int sale_setIdSale(Sale* this, int idSale)
 
 int isValidIdSale(int idSale)
 {
-	return 1;
+	int output = 0;
+	if(idSale > 0)
+	{
+		output = 1;
+	}
+	return output;
 }
 
 int sale_getIdClient(Sale* this)
@@ -114,7 +119,12 @@ int sale_setPostersSold(Sale* this, int postersSold)
 
 int isValidPostersSold(int postersSold)
 {
-	return 1;
+	int output = 0;
+	if(postersSold > 0)
+	{
+		output = 1;
+	}
+	return output;
 }
 
 char* sale_getFileName(Sale* this)
@@ -135,7 +145,12 @@ int sale_setFileName(Sale* this, char* fileName)
 
 int isValidFileName(char* fileName)
 {
-	return 1;
+	int output = 0;
+	if(fileName != NULL && utn_isValidFileName(fileName))
+	{
+		output = 1;
+	}
+	return output;
 }
 
 int sale_getZone(Sale* this)
@@ -156,7 +171,12 @@ int sale_setZone(Sale* this, int zone)
 
 int isValidZone(int zone)
 {
-	return 1;
+	int output = 0;
+	if(zone > 0)
+	{
+		output = 1;
+	}
+	return output;
 }
 
 int sale_getStatus(Sale* this)
@@ -177,7 +197,12 @@ int sale_setStatus(Sale* this, int status)
 
 int isValidStatus(int status)
 {
-	return 1;
+	int output = 0;
+	if(status > 0)
+	{
+		output = 1;
+	}
+	return output;
 }
 
 /** \brief imprime una tabla con los datos de un unico registro de empleado
