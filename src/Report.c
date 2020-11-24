@@ -1,6 +1,6 @@
 #include "Report.h"
 
-int report_findClientPostersSold(LinkedList* pArrayClientList,LinkedList* pArraySalesList)
+int report_findClientPostersSold(LinkedList* pArrayClientList,LinkedList* pArraySalesList, int order)
 {
 	int output = -1;
 	int clientsLen = ll_len(pArrayClientList);
@@ -27,7 +27,7 @@ int report_findClientPostersSold(LinkedList* pArrayClientList,LinkedList* pArray
 				}
 				else
 				{
-					if(acumulator > topValue)
+					if((order == 1 && acumulator > topValue) || (order == 2 && acumulator < topValue))
 					{
 						ll_clear(searchList);
 						ll_add(searchList, bufferClient);
@@ -170,7 +170,97 @@ int report_CreatePaidFile(LinkedList* pArrayClientList,char* path, char* columNa
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	return output;
 
+}
+
+int report_findSaleMostPosters(LinkedList* pArrayClientList,LinkedList* pArraySalesList, int order)
+{
+	int output = -1;
+	int salesLen;
+	int topValue;
+	int flagFirstSale = TRUE;
+	Client* bufferClient;
+	Sale* bufferSale;
+	LinkedList* bufferSalesList = ll_newLinkedList();
+	LinkedList* searchList = ll_newLinkedList();
+	ll_filterAdd(pArraySalesList, bufferSalesList, sale_isPaid);
+	salesLen = ll_len(bufferSalesList);
+	if(pArrayClientList != NULL && pArraySalesList != NULL)
+	{
+		for (int i = 0; i< salesLen;i++)
+		{
+			bufferSale = ll_get(bufferSalesList, i);
+			if(bufferSale != NULL)
+			{
+
+				if(flagFirstSale == TRUE)
+				{
+					topValue = sale_getPostersSold(bufferSale);
+					ll_add(searchList, bufferSale);
+					flagFirstSale = FALSE;
+				}
+				else
+				{
+					if((order == 1 && sale_getPostersSold(bufferSale) > topValue) || (order == 2 && sale_getPostersSold(bufferSale) < topValue))
+					{
+						ll_clear(searchList);
+						ll_add(searchList, bufferSale);
+						topValue = sale_getPostersSold(bufferSale);
+					}
+					else if(sale_getPostersSold(bufferSale) == topValue)
+					{
+						ll_add(searchList, bufferSale);
+					}
+
+				}
+
+
+			}
+
+
+		}
+
+		report_printSalesWithClient(pArrayClientList, searchList);
+		output = 0;
+
+
+	}
+	return output;
 
 }
+
+/** \brief Listar empleados
+ *
+ * \param path char*
+ * \param pArrayListEnvio LinkedList*
+ * \return int
+ *
+ */
+
+int report_printSalesWithClient(LinkedList* pArrayListClients,LinkedList* pArrayListSales)
+{
+	int output = -1;
+	int indexClient;
+	int len = ll_len(pArrayListSales);
+	Client* bufferClient;
+	Sale* bufferSale;
+	if(pArrayListSales != NULL && len > 0)
+	{
+		printf(REPORT_MOSTPORSTESSOLD_TOP);
+		for(int i = 0; i < len;i++)
+		{
+			bufferSale = ll_get(pArrayListSales, i);
+			indexClient = controller_findClientById(pArrayListClients, sale_getIdClient(bufferSale));
+			bufferClient = ll_get(pArrayListClients,indexClient);
+			printf(REPORT_MOSTPOSTERSSOLD_ONE_REGISTRY,sale_getIdSale(bufferSale),client_getCUIT(bufferClient));
+		}
+		printf(REPORT_MOSTPORSTESSOLD_BOTTOM);
+
+		output = 0;
+	}
+    return output;
+}
+
+
+
 
 

@@ -41,6 +41,7 @@
 
 //Create
 #define CREATE_SALE_SUCCESS "Aviso creado con éxito.\n"
+#define CREATE_SALE_ERROR "Error al crear el aviso.\n"
 
 
 //Modifiy
@@ -56,8 +57,8 @@
 #define MODIFY_ZONE_ERROR "Error al intentar modificar la zona.\n"
 #define MODIFY_STATUS_SUCCESS "Estado modificado con éxito.\n"
 #define MODIFY_STATUS_ERROR "Error al intentar modificar el estado.\n"
-#define SALE_CHARGE_SUCCESS "Venta cobrada exitosamente.\n"
-#define SALE_CHARGE_ERROR "La venta o no existe, o no está como a pagar"
+#define CHARGE_SALE_SUCCESS "Venta cobrada exitosamente.\n"
+#define CHARGE_SALE_ERROR "La venta o no existe, o no está como a pagar"
 
 
 

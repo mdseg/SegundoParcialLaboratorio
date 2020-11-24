@@ -160,6 +160,7 @@ int controller_addSale(LinkedList* pArrayListSales,LinkedList* pArrayListClients
 	Sale* bufferSale;
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	printf(ENTERING_CREATE_CLIENT);
+	controller_printClients(pArrayListClients);
 	if(pArrayListSales != NULL && pArrayListClients != NULL)
 	{
 		if(utn_getInt(&idClient, INPUT_ID, ERROR_IDCLIENTE, IDCLIENTE_MIN, IDCLIENTE_MAX, ATTEMPTS) == 0  &&
@@ -481,7 +482,6 @@ int controller_printClients(LinkedList* pArrayListClient)
 {
 	int output = -1;
 	int len = ll_len(pArrayListClient);
-	printf(ENTERING_LIST_CLIENT);
 	if(pArrayListClient != NULL && len > 0)
 	{
 		printf(PRINT_ONE_REGISTRY_TOP);
@@ -515,6 +515,7 @@ int controller_printSales(LinkedList* pArrayListSales)
 	}
     return output;
 }
+
 /** \brief muestra un menu para que el usuario seleccione por que campo y en que orden desea ordenar la lista de empleados
  *
  * \param pArrayListEnvio LinkedList*
@@ -792,7 +793,7 @@ int controller_chargeSale(LinkedList* pArrayListSales, char* path)
 						case 1:
 							sale_setStatus(bufferSale, 2);
 							controller_saveSalesAsText(path, pArrayListSales);
-							printf(SALE_CHARGE_SUCCESS);
+							printf(CHARGE_SALE_SUCCESS);
 							break;
 						case 2:
 							printf(CONTROLLER_CANCEL);
@@ -803,7 +804,7 @@ int controller_chargeSale(LinkedList* pArrayListSales, char* path)
 			}
 			else
 			{
-				printf(SALE_CHARGE_ERROR);
+				printf(CHARGE_SALE_ERROR);
 			}
 		}
 	}

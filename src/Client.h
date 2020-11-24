@@ -32,6 +32,7 @@
 
 //Create
 #define CREATE_CLIENT_SUCCESS "Cliente creado con éxito.\n"
+#define CREATE_CLIENT_ERROR "Error al crear el cliente.\n"
 #define CREATE_CLIENT_CUIT_ERROR "Ya existe un cliente con ese CUIT"
 
 //Modifiy
