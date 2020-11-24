@@ -14,12 +14,24 @@
 
 #define LONG_NAME 55
 
-
+/** \brief reserva un espacio de memoria del tipo Client para crear un nuevo elemento
+ *
+ * \param void
+ * \return void
+ *
+ */
 Client* client_new(void)
 {
 	return (Client*)malloc(sizeof(Client));
 }
-
+/** \brief reserva un espacio de memoria del tipo Client para crear un nuevo elemento ingresando los parametros correspondientes
+ *
+ * \param idClient char* id del cliente cargado
+ * \param name char* nombre del cliente
+ * \param lastName char* apellido del cliente
+ * \param CUIT char* cuit del cliente
+ * \return Client* si Ok // null si error
+ */
 Client* client_newString(char* idClient, char* name, char* lastName, char* CUIT)
 {
 	Client* this = client_new();
@@ -38,7 +50,14 @@ Client* client_newString(char* idClient, char* name, char* lastName, char* CUIT)
 	}
 	return NULL;
 }
-
+/** \brief reserva un espacio de memoria del tipo Client para crear un nuevo elemento ingresando los parametros correspondientes
+ *
+ * \param idClient int id del cliente cargado
+ * \param name char* nombre del cliente
+ * \param lastName char* apellido del cliente
+ * \param CUIT char* cuit del cliente
+ * \return Client* si Ok // null si error
+ */
 Client* client_newParams(int idClient, char* name, char* lastName, char* CUIT)
 {
 	Client* this = client_new();
@@ -57,12 +76,23 @@ Client* client_newParams(int idClient, char* name, char* lastName, char* CUIT)
 	}
 	return NULL;
 }
-
+/** \brief verifica que un puntero del tipo Cliente no sea nulo y posteriormente retorna el Id del cliente del mismo.
+ *
+ * \param this Client*
+ * \return Client* si ok // null si error
+ *
+ */
 int client_getIdClient(Client* this)
 {
 	return this->idClient;
 }
-
+/** \brief verifica que un puntero del tipo Client no sea nulo y posteriormente asigna el Id de del cliente al mismo.
+ *
+ * \param this Client*
+ * \param idClient int
+ * \return 0 si ok // -1 si error
+ *
+ */
 int client_setIdClient(Client* this, int idClient)
 {
 	int output = -1;
@@ -73,7 +103,12 @@ int client_setIdClient(Client* this, int idClient)
 	}
 	 return output;
 }
-
+/** \brief realiza la validacion del campo idClient.
+ *
+ * \param idClient int
+ * \return 1 si ok // 0 si no es válido
+ *
+ */
 int isValidIdClient(int idClient)
 {
 	int output = 0;
@@ -83,12 +118,23 @@ int isValidIdClient(int idClient)
 	}
 	return output;
 }
-
+/** \brief verifica que un puntero del tipo Cliente no sea nulo y posteriormente retorna el nombre del mismo.
+ *
+ * \param this Client*
+ * \return name si ok // null si error
+ *
+ */
 char* client_getName(Client* this)
 {
 	return this->name;
 }
-
+/** \brief verifica que un puntero del tipo Client no sea nulo y posteriormente asigna el nombre al mismo.
+ *
+ * \param this Client*
+ * \param name char*
+ * \return 0 si ok // -1 si error
+ *
+ */
 int client_setName(Client* this, char* name)
 {
 	int output = -1;
@@ -99,7 +145,12 @@ int client_setName(Client* this, char* name)
 	}
 	return output;
 }
-
+/** \brief realiza la validacion del campo name.
+ *
+ * \param name char*
+ * \return 1 si ok // 0 si no es válido
+ *
+ */
 int isValidName(char* name)
 {
 	int output = 0;
@@ -109,12 +160,23 @@ int isValidName(char* name)
 	}
 	return output;
 }
-
+/** \brief verifica que un puntero del tipo Cliente no sea nulo y posteriormente retorna el apellido del mismo.
+ *
+ * \param this Client*
+ * \return lastName si ok // null si error
+ *
+ */
 char* client_getLastName(Client* this)
 {
 	return this->lastName;
 }
-
+/** \brief verifica que un puntero del tipo Client no sea nulo y posteriormente asigna el apellido al mismo.
+ *
+ * \param this Client*
+ * \param lastName char*
+ * \return 0 si ok // -1 si error
+ *
+ */
 int client_setLastName(Client* this, char* lastName)
 {
 	int output = -1;
@@ -125,7 +187,12 @@ int client_setLastName(Client* this, char* lastName)
 	}
 	return output;
 }
-
+/** \brief realiza la validacion del campo lastName.
+ *
+ * \param lastName char*
+ * \return 1 si ok // 0 si no es válido
+ *
+ */
 int isValidLastName(char* lastName)
 {
 	int output = 0;
@@ -135,12 +202,23 @@ int isValidLastName(char* lastName)
 		}
 		return output;
 }
-
+/** \brief verifica que un puntero del tipo Cliente no sea nulo y posteriormente retorna el CUIT del mismo.
+ *
+ * \param this Client*
+ * \return CUIT si ok // null si error
+ *
+ */
 char* client_getCUIT(Client* this)
 {
 	return this->CUIT;
 }
-
+/** \brief verifica que un puntero del tipo Client no sea nulo y posteriormente asigna el CUIT al mismo.
+ *
+ * \param this Client*
+ * \param CUIT char*
+ * \return 0 si ok // -1 si error
+ *
+ */
 int client_setCUIT(Client* this, char* CUIT)
 {
 	int output = -1;
@@ -151,7 +229,12 @@ int client_setCUIT(Client* this, char* CUIT)
 	}
 	return output;
 }
-
+/** \brief realiza la validacion del campo CUIT.
+ *
+ * \param CUIT char*
+ * \return 1 si ok // 0 si no es válido
+ *
+ */
 int isValidCUIT(char* CUIT)
 {
 	int output = 0;
@@ -176,7 +259,7 @@ void client_delete(Client* this)
 		free(this);
 	}
 }
-/** \brief imprime una tabla con los datos de un unico registro de empleado
+/** \brief imprime una tabla con los datos de un unico registro de Client*
  *
  * \param envio1 Client*
  * \return int
@@ -193,10 +276,10 @@ int client_printOneClient(void* this)
 	}
 	return output;
 }
-/** \brief imprime una tabla con los datos de un unico registro de empleado
+/** \brief imprime una tabla con los datos de un unico registro de Client* con encabezado
  *
  * \param envio1 Client*
- * \return int
+ * \return 0 si ok // -1 si error
  *
  */
 int client_printOneClientBanners(Client* this)
@@ -211,22 +294,44 @@ int client_printOneClientBanners(Client* this)
 	}
 	return output;
 }
+/** \brief verifica que un valor de Cuit de un Client* sea igual a uno ingresado por parametro.
+ *
+ * \param this Client*
+ * \return 1 si ok // 0 si no es igual
+ *
+ */
 int client_isRepeatCuit(void* this, char* cuit)
 {
-	int output = 0;
+	int output = -1;
 	Client* bufferClient;
 	bufferClient = (Client*)this;
-	if(strcmp(client_getCUIT(bufferClient),cuit) == 0)
+	if(bufferClient != NULL && cuit != NULL)
 	{
-		output = 1;
+		output = 0;
+		if(strcmp(client_getCUIT(bufferClient),cuit) == 0)
+		{
+			output = 1;
+		}
 	}
 	return output;
 }
+/** \brief verifica que un puntero del tipo Cliente no sea nulo y posteriormente retorna la cantidad de posters pagados del mismo.
+ *
+ * \param this Client*s
+ * \return postersPaids si ok // null si error
+ *
+ */
 int client_getPostersPaids(Client* this)
 {
 	return this->postersPaids;
 }
-
+/** \brief verifica que un puntero del tipo Client no sea nulo y posteriormente asigna el valor de posters pagados al mismo.
+ *
+ * \param this Client*
+ * \param postersPaids int
+ * \return 0 si ok // -1 si error
+ *
+ */
 int client_setPostersPaids(Client* this, int postersPaids)
 {
 	int output = -1;
@@ -237,7 +342,12 @@ int client_setPostersPaids(Client* this, int postersPaids)
 	}
 	 return output;
 }
-
+/** \brief realiza la validacion del campo postersPaids.
+ *
+ * \param postersPaids int
+ * \return 1 si ok // 0 si no es válido
+ *
+ */
 int isValidPostersPaids(int postersPaids)
 {
 	int output = 0;
@@ -247,11 +357,23 @@ int isValidPostersPaids(int postersPaids)
 	}
 	return output;
 }
+/** \brief verifica que un puntero del tipo Cliente no sea nulo y posteriormente retorna la cantidad de posters a pagar del mismo.
+ *
+ * \param this Client*
+ * \return postersToPay si ok // null si error
+ *
+ */
 int client_getPostersToPay(Client* this)
 {
 	return this->postersToPay;
 }
-
+/** \brief verifica que un puntero del tipo Client no sea nulo y posteriormente asigna el valor de posters a pagar al mismo.
+ *
+ * \param this Client*
+ * \param postersToPay int
+ * \return 0 si ok // -1 si error
+ *
+ */
 int client_setPostersToPay(Client* this, int postersToPay)
 {
 	int output = -1;
@@ -262,7 +384,12 @@ int client_setPostersToPay(Client* this, int postersToPay)
 	}
 	 return output;
 }
-
+/** \brief realiza la validacion del campo postersToPay.
+ *
+ * \param postersPaids int
+ * \return 1 si ok // 0 si no es válido
+ *
+ */
 int isValidPostersToPay(int postersToPay)
 {
 	int output = 0;

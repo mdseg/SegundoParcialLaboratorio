@@ -4,11 +4,26 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+/** \brief reserva un espacio de memoria del tipo Sale para crear un nuevo elemento
+ *
+ * \param void
+ * \return void
+ *
+ */
 Sale* sale_new(void)
 {
 	return (Sale*)malloc(sizeof(Sale));
 }
-
+/** \brief reserva un espacio de memoria del tipo Sale para crear un nuevo elemento ingresando los parametros correspondientes
+ *
+ * \param iDSale int id de la venta cargada
+ * \param idClient int id del cliente cargado
+ * \param postersSold char* cantidad de afiches vendidos
+ * \param fileName char* nombre del archivo cargado
+ * \param zone char* zona del aviso publicitario
+ * \return Sale* si Ok // null si error
+ */
 Sale* sale_newParam(int idSale, char* idClient, char* postersSold, char* fileName, char* zone)
 {
 	Sale* this = sale_new();
@@ -27,6 +42,16 @@ Sale* sale_newParam(int idSale, char* idClient, char* postersSold, char* fileNam
 	}
 	return NULL;
 }
+/** \brief reserva un espacio de memoria del tipo Sale para crear un nuevo elemento ingresando los parametros correspondientes
+ *
+ * \param iDSale int id de la venta cargada
+ * \param idClient int id del cliente cargado
+ * \param postersSold char* cantidad de afiches vendidos
+ * \param fileName char* nombre del archivo cargado
+ * \param zone char* zona del aviso publicitario
+ * \param status char* estado de la venta
+ * \return Sale* si Ok // null si error
+ */
 Sale* sale_newParamWithStatus(int idSale, char* idClient, char* postersSold, char* fileName, char* zone,char* status)
 {
 	Sale* this = sale_new();
@@ -44,9 +69,9 @@ Sale* sale_newParamWithStatus(int idSale, char* idClient, char* postersSold, cha
 	}
 	return NULL;
 }
-/** \brief verifica que un puntero del tipo Empleado no sea nulo y posteriormente lo elimina, liberando la memoria asociada a él
+/** \brief verifica que un puntero del tipo Sale no sea nulo y posteriormente lo elimina, liberando la memoria asociada a él
  *
- * \param employee1 Employee*
+ * \param sale Sale*
  * \return void
  *
  */
@@ -57,12 +82,23 @@ void sale_delete(Sale* this)
 		free(this);
 	}
 }
-
+/** \brief verifica que un puntero del tipo Sale no sea nulo y posteriormente retorna el Id de la venta del mismo.
+ *
+ * \param this Sale*
+ * \return Sale* si ok // null si error
+ *
+ */
 int sale_getIdSale(Sale* this)
 {
 	return this->idSale;
 }
-
+/** \brief verifica que un puntero del tipo Sale no sea nulo y posteriormente asigna el Id de la venta al mismo.
+ *
+ * \param this Sale*
+ * \param idSale int
+ * \return 0 si ok // -1 si error
+ *
+ */
 int sale_setIdSale(Sale* this, int idSale)
 {
 	int output = -1;
@@ -73,7 +109,12 @@ int sale_setIdSale(Sale* this, int idSale)
 	}
 	 return output;
 }
-
+/** \brief realiza la validacion del campo idSale.
+ *
+ * \param idSale int
+ * \return 1 si ok // 0 si no es válido
+ *
+ */
 int isValidIdSale(int idSale)
 {
 	int output = 0;
@@ -83,12 +124,23 @@ int isValidIdSale(int idSale)
 	}
 	return output;
 }
-
+/** \brief verifica que un puntero del tipo Sale no sea nulo y posteriormente retorna el Id del cliente del mismo.
+ *
+ * \param this Sale*
+ * \return idCliente si ok // null si error
+ *
+ */
 int sale_getIdClient(Sale* this)
 {
 	return this->idClient;
 }
-
+/** \brief verifica que un puntero del tipo Sale no sea nulo y posteriormente asigna el Id del cliente del mismo.
+ *
+ * \param this Sale*
+ * \param idClient int
+ * \return 0 ok // -1 si error
+ *
+ */
 int sale_setIdClient(Sale* this, int idClient)
 {
 	int output = -1;
@@ -100,12 +152,23 @@ int sale_setIdClient(Sale* this, int idClient)
 	 return output;
 }
 
-
+/** \brief verifica que un puntero del tipo Sale no sea nulo y posteriormente retorna el Id de la cantidad de posters vendidos del mismo.
+ *
+ * \param this Sale*
+ * \return postersSold si ok // null si error
+ *
+ */
 int sale_getPostersSold(Sale* this)
 {
 	return this->postersSold;
 }
-
+/** \brief verifica que un puntero del tipo Sale no sea nulo y posteriormente asigna el valor de afiches vendidos al mismo.
+ *
+ * \param this Sale*
+ * \param postersSold int
+ * \return 0 si ok // -1 si error
+ *
+ */
 int sale_setPostersSold(Sale* this, int postersSold)
 {
 	int output = -1;
@@ -116,7 +179,12 @@ int sale_setPostersSold(Sale* this, int postersSold)
 	}
 	 return output;
 }
-
+/** \brief realiza la validacion del campo postersSold.
+ *
+ * \param postersSold int
+ * \return 1 si ok // 0 si no es válido
+ *
+ */
 int isValidPostersSold(int postersSold)
 {
 	int output = 0;
@@ -126,12 +194,23 @@ int isValidPostersSold(int postersSold)
 	}
 	return output;
 }
-
+/** \brief verifica que un puntero del tipo Sale no sea nulo y posteriormente retorna el Id de la el nombre del archivo del mismo.
+ *
+ * \param this Sale*
+ * \return fileName si ok // null si error
+ *
+ */
 char* sale_getFileName(Sale* this)
 {
 	return this->fileName;
 }
-
+/** \brief verifica que un puntero del tipo Sale no sea nulo y posteriormente asigna el valor de afiches vendidos al mismo.
+ *
+ * \param this Sale*
+ * \param fileName char*
+ * \return 0 si ok // -1 si error
+ *
+ */
 int sale_setFileName(Sale* this, char* fileName)
 {
 	int output = -1;
@@ -142,7 +221,12 @@ int sale_setFileName(Sale* this, char* fileName)
 	}
 	return output;
 }
-
+/** \brief realiza la validacion del campo fileName.
+ *
+ * \param fileName char*
+ * \return 1 si ok // 0 si no es válido
+ *
+ */
 int isValidFileName(char* fileName)
 {
 	int output = 0;
@@ -152,12 +236,23 @@ int isValidFileName(char* fileName)
 	}
 	return output;
 }
-
+/** \brief verifica que un puntero del tipo Sale no sea nulo y posteriormente retorna el Id de la zona del mismo.
+ *
+ * \param this Sale*
+ * \return zone si ok // null si error
+ *
+ */
 int sale_getZone(Sale* this)
 {
 	return this->zone;
 }
-
+/** \brief verifica que un puntero del tipo Sale no sea nulo y posteriormente asigna el valor de zona al mismo.
+ *
+ * \param this Sale*
+ * \param zone int
+ * \return 0 si ok // -1 si error
+ *
+ */
 int sale_setZone(Sale* this, int zone)
 {
 	int output = -1;
@@ -168,7 +263,12 @@ int sale_setZone(Sale* this, int zone)
 	}
 	return output;
 }
-
+/** \brief realiza la validacion del campo zone.
+ *
+ * \param zone int
+ * \return 1 si ok // 0 si no es válido
+ *
+ */
 int isValidZone(int zone)
 {
 	int output = 0;
@@ -178,12 +278,23 @@ int isValidZone(int zone)
 	}
 	return output;
 }
-
+/** \brief verifica que un puntero del tipo Sale no sea nulo y posteriormente retorna el estado del mismo.
+ *
+ * \param this Sale*
+ * \return postersSold si ok // null si error
+ *
+ */
 int sale_getStatus(Sale* this)
 {
 	return this->status;
 }
-
+/** \brief verifica que un puntero del tipo Sale no sea nulo y posteriormente asigna el valor de estado al mismo.
+ *
+ * \param this Sale*
+ * \param status int
+ * \return 0 si ok // -1 si error
+ *
+ */
 int sale_setStatus(Sale* this, int status)
 {
 	int output = -1;
@@ -194,7 +305,12 @@ int sale_setStatus(Sale* this, int status)
 	}
 	 return output;
 }
-
+/** \brief realiza la validacion del campo status.
+ *
+ * \param status int
+ * \return 1 si ok // 0 si no es válido
+ *
+ */
 int isValidStatus(int status)
 {
 	int output = 0;
@@ -205,10 +321,10 @@ int isValidStatus(int status)
 	return output;
 }
 
-/** \brief imprime una tabla con los datos de un unico registro de empleado
+/** \brief imprime una fila con los datos de un unico registro de venta
  *
- * \param envio1 Sale*
- * \return int
+ * \param this Sale*
+ * \return 0 si ok // -1 si error
  *
  */
 int sale_printOneSale(void* this)
@@ -249,10 +365,10 @@ int sale_printOneSale(void* this)
 	}
 	return output;
 }
-/** \brief imprime una tabla con los datos de un unico registro de empleado
+/** \brief imprime una tabla con los datos de un unico registro de ventas con encabezado
  *
- * \param envio1 Sale*
- * \return int
+ * \param this Sale*
+ * \return 0 si ok // -1 si error
  *
  */
 int sale_printOneSaleBanners(Sale* this)
@@ -269,6 +385,12 @@ int sale_printOneSaleBanners(Sale* this)
 
 	return output;
 }
+/** \brief function criterio que evalua si una venta esta como 'a cobrar'
+ *
+ * \param this Sale*
+ * \return 1 si es a cobrar // 0 si no es // -1 si error
+ *
+ */
 int sale_isToPay(void* this)
 {
 	int output = -1;
@@ -283,6 +405,12 @@ int sale_isToPay(void* this)
 	}
 	return output;
 }
+/** \brief function criterio que evalua si una venta esta como 'cobrada'
+ *
+ * \param this Sale*
+ * \return 1 si es cobrada // 0 si no es // -1 si error
+ *
+ */
 int sale_isPaid(void* this)
 {
 	int output = -1;
@@ -297,11 +425,19 @@ int sale_isPaid(void* this)
 	}
 	return output;
 }
+/** \brief function criterio que retorna la cantidad de posters si se corresponde con el idCliente ingresado
+ *
+ * \param this Sale*
+ * \áram idClient int
+ * \return sale_getPostersSold(this) si ok // 0 si no es // -1 si error
+ *
+ */
 int sale_sumPosters(void* this, int idClient)
 {
-	int output = 0;
+	int output = -1;
 	if(this != NULL && idClient > 0)
 	{
+		output = 0;
 		if(sale_getIdClient(this) == idClient)
 		{
 			output = sale_getPostersSold(this);
@@ -309,6 +445,13 @@ int sale_sumPosters(void* this, int idClient)
 	}
 	return output;
 }
+/** \brief function criterio que evalua si la una venta corresponde a un cliente o no
+ *
+ * \param this Sale*
+ * \param idClient int
+ * \return sale_getPostersSold(this) si ok // 0 si no es // -1 si error
+ *
+ */
 int sale_clientCheckSale(void* this, int idClient)
 {
 	int output = -1;
@@ -318,7 +461,7 @@ int sale_clientCheckSale(void* this, int idClient)
 		output = 0;
 		if(sale_getIdClient(this) == idClient)
 		{
-			output++;
+			output = 1;
 		}
 	}
 	return output;
