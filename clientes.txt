@@ -7,3 +7,4 @@ idCliente,nombreCliente,apellidoCliente,CUIT
 6,Ramiro,Marreiro,20333333330
 7,Marcelo,Ji,20333333333
 8,Juana,Hansen,27325744459
+9,Diego,Villa,20224586589

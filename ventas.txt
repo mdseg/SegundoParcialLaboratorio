@@ -7,3 +7,4 @@ idVenta,idCliente,cantidadVendida,nombreArchivo,zona,estado
 6,5,30,chile.txt,2,1
 7,8,100,pc.jpg,3,2
 8,5,250,juana.gif,1,1
+9,9,200,diego.jpg,1,2

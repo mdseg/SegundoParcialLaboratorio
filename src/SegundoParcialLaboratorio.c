@@ -29,6 +29,12 @@ int main()
    LinkedList* listClient = ll_newLinkedList();
    LinkedList* listSales = ll_newLinkedList();
 
+   controller_loadClientsFromText(TEXT_CLIENTS_FILE,listClient);
+   printf("len %d.\n",ll_len(listClient));
+   ll_clear(listClient);
+   printf("len %d.\n",ll_len(listClient));
+   controller_loadClientsFromText(TEXT_CLIENTS_FILE,listClient);
+
    //Carga Clientes
    if(controller_loadClientsFromText(TEXT_CLIENTS_FILE,listClient) == 0 &&
 		   controller_loadPostersFromText(TEXT_SALES_FILE, listSales) == 0)
