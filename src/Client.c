@@ -43,8 +43,6 @@ Client* client_newString(char* idClient, char* name, char* lastName, char* CUIT)
 			&& !(client_setCUIT(this, CUIT))
 			)
 		{
-			client_setPostersPaids(this, 0);
-			client_setPostersToPay(this, 0);
 			return this;
 		}
 	}
@@ -69,8 +67,6 @@ Client* client_newParams(int idClient, char* name, char* lastName, char* CUIT)
 			&& !(client_setCUIT(this, CUIT))
 			)
 		{
-			client_setPostersPaids(this, 0);
-			client_setPostersToPay(this, 0);
 			return this;
 		}
 	}
@@ -315,87 +311,4 @@ int client_isRepeatCuit(void* this, char* cuit)
 	}
 	return output;
 }
-/** \brief verifica que un puntero del tipo Cliente no sea nulo y posteriormente retorna la cantidad de posters pagados del mismo.
- *
- * \param this Client*s
- * \return postersPaids si ok // null si error
- *
- */
-int client_getPostersPaids(Client* this)
-{
-	return this->postersPaids;
-}
-/** \brief verifica que un puntero del tipo Client no sea nulo y posteriormente asigna el valor de posters pagados al mismo.
- *
- * \param this Client*
- * \param postersPaids int
- * \return 0 si ok // -1 si error
- *
- */
-int client_setPostersPaids(Client* this, int postersPaids)
-{
-	int output = -1;
-	if(this != NULL  && isValidPostersPaids(postersPaids))
-	{
-		this->postersPaids = postersPaids;
-		output = 0;
-	}
-	 return output;
-}
-/** \brief realiza la validacion del campo postersPaids.
- *
- * \param postersPaids int
- * \return 1 si ok // 0 si no es válido
- *
- */
-int isValidPostersPaids(int postersPaids)
-{
-	int output = 0;
-	if(postersPaids >= 0)
-	{
-		output = 1;
-	}
-	return output;
-}
-/** \brief verifica que un puntero del tipo Cliente no sea nulo y posteriormente retorna la cantidad de posters a pagar del mismo.
- *
- * \param this Client*
- * \return postersToPay si ok // null si error
- *
- */
-int client_getPostersToPay(Client* this)
-{
-	return this->postersToPay;
-}
-/** \brief verifica que un puntero del tipo Client no sea nulo y posteriormente asigna el valor de posters a pagar al mismo.
- *
- * \param this Client*
- * \param postersToPay int
- * \return 0 si ok // -1 si error
- *
- */
-int client_setPostersToPay(Client* this, int postersToPay)
-{
-	int output = -1;
-	if(this != NULL  && isValidPostersToPay(postersToPay))
-	{
-		this->postersToPay = postersToPay;
-		output = 0;
-	}
-	 return output;
-}
-/** \brief realiza la validacion del campo postersToPay.
- *
- * \param postersPaids int
- * \return 1 si ok // 0 si no es válido
- *
- */
-int isValidPostersToPay(int postersToPay)
-{
-	int output = 0;
-	if(postersToPay >= 0)
-	{
-		output = 1;
-	}
-	return output;
-}
+

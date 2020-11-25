@@ -72,8 +72,7 @@ typedef struct
 	char name[SIZE_STR];
 	char lastName[SIZE_STR];
 	char CUIT[SIZE_STR];
-	int postersPaids;
-	int postersToPay;
+
 
 
 }Client;
@@ -85,14 +84,11 @@ int client_setIdClient(Client* this, int idClient);
 int client_setName(Client* this, char* name);
 int client_setLastName(Client* this, char* lastName);
 int client_setCUIT(Client* this, char* CUIT);
-int client_setPostersPaids(Client* this, int postersPaids);
-int client_setPostersToPay(Client* this, int postersToPay);
 int client_getIdClient(Client* this);
 char* client_getName(Client* this);
 char* client_getLastName(Client* this);
 char* client_getCUIT(Client* this);
-int client_getPostersPaids(Client* this);
-int client_getPostersToPay(Client* this);
+
 
 
 void client_delete(Client* this);
