@@ -16,9 +16,7 @@
 #define EXIT_PROGRAM "Saliendo de la aplicación...\n"
 #define LIST_OVERWRITE_USER_CANCEL "Operación cancelada por el usuario.\n"
 #define ATTEMPTS 5
-#define BINARY_FILE "otro.csv"
 #define TEXT_CLIENTS_FILE "clientes.txt"
-#define TEXT_DEBUG_FILE "otro.csv"
 #define TEXT_SALES_FILE "ventas.txt"
 #define TEXT_REPORT_TOPAY "ventas_acobrar.txt"
 #define TEXT_REPORT_SALES "ventas_cobradas.txt"
@@ -29,13 +27,6 @@ int main()
    LinkedList* listClient = ll_newLinkedList();
    LinkedList* listSales = ll_newLinkedList();
 
-   controller_loadClientsFromText(TEXT_CLIENTS_FILE,listClient);
-   printf("len %d.\n",ll_len(listClient));
-   ll_clear(listClient);
-   printf("len %d.\n",ll_len(listClient));
-   controller_loadClientsFromText(TEXT_CLIENTS_FILE,listClient);
-
-   //Carga Clientes
    if(controller_loadClientsFromText(TEXT_CLIENTS_FILE,listClient) == 0 &&
 		   controller_loadPostersFromText(TEXT_SALES_FILE, listSales) == 0)
    {
@@ -56,10 +47,10 @@ int main()
 				   controller_chargeSale(listSales, TEXT_SALES_FILE);
 				   break;
 			   case 5:
-				   report_CreatePaidFile(listClient, TEXT_REPORT_SALES, "VentasCobradas");
+				   report_generateReport(listClient, listSales, TEXT_REPORT_SALES, 1);
 				   break;
 			   case 6:
-				   report_CreateToPayFile(listClient, TEXT_REPORT_TOPAY, "VentasACobrar");
+				   report_generateReport(listClient, listSales, TEXT_REPORT_TOPAY, 2);
 				   break;
 			   case 7:
 				   printf(REPORT_CLIENTS_MORE_POSTERS);

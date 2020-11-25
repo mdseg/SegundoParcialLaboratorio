@@ -45,171 +45,63 @@ int report_findClientPostersSold(LinkedList* pArrayClientList,LinkedList* pArray
 					{
 						ll_add(searchList, bufferClient);
 					}
-
 				}
-
-
 			}
-
-
 		}
 		controller_printClients(searchList);
 		output = 0;
-
-
 	}
 	return output;
 
 }
-/** \brief Genera un informe de ventas a cobrar
+/** \brief Genera un informe de ventas o de cobros y lo almacena en un archivo tipo .txt
  *
  * \param pArrayClientList LinkedList*
  * \param pArraySalesList LinkedList*
  * \param path char*
+ * \param type int   1 para reportes de Cobros // 2 para reportes de Ventas por cobrar
  * \return 0 si ok // -1 si error
  *
  */
-int report_generatePayReport(LinkedList* pArrayClientList, LinkedList* pArraySalesList,char* path)
+int report_generateReport(LinkedList* pArrayClientList, LinkedList* pArraySalesList,char* path, int type)
 {
 	int output = -1;
 	int clientsLen = ll_len(pArrayClientList);
 	int acumulator;
 	Client* bufferClient;
 	LinkedList* bufferSalesList = ll_newLinkedList();
-	ll_filterAdd(pArraySalesList, bufferSalesList, sale_isToPay);
-	if(pArrayClientList != NULL && pArraySalesList != NULL)
+	FILE* pFile;
+	pFile = fopen(path,"w");
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
+	if(pArrayClientList != NULL && pArraySalesList != NULL && pFile != NULL)
 	{
+		switch(type)
+		{
+		case 1:
+			ll_filterAdd(pArraySalesList, bufferSalesList, sale_isPaid);
+			fprintf(pFile,REPORT_TXT_CLIENT_PAID_TOP);
+			break;
+		case 2:
+			ll_filterAdd(pArraySalesList, bufferSalesList, sale_isToPay);
+			fprintf(pFile,REPORT_TXT_CLIENT_TOPAY_TOP);
+			break;
+		}
 		for (int i = 0; i< clientsLen;i++)
 		{
 			bufferClient = ll_get(pArrayClientList, i);
 			if(bufferClient != NULL)
 			{
 				acumulator = ll_reduceInt(bufferSalesList, sale_clientCheckSale, client_getIdClient(bufferClient));
-				client_setPostersToPay(bufferClient, acumulator);
+				fprintf(pFile,"%d,%s,%s,%s,%d\n",client_getIdClient(bufferClient),client_getName(bufferClient),client_getLastName(bufferClient),client_getCUIT(bufferClient),acumulator);
 			}
-
 		}
-		report_CreateToPayFile(pArrayClientList, path, "VentasAPagar");
-
+		fclose(pFile);
+		printf(REPORT_CREATE_FILE_SUCCESS);
+		printf(PRINT_ONE_REGISTRY_BOTTOM);
 	}
 	return output;
 }
-/** \brief Genera un informe de ventas cobradas
- *
- * \param pArrayClientList LinkedList*
- * \param pArraySalesList LinkedList*
- * \param path char*
- * \return 0 si ok // -1 si error
- *
- */
-int report_generateSalesReport(LinkedList* pArrayClientList, LinkedList* pArraySalesList,char* path)
-{
-	int output = -1;
-	int clientsLen = ll_len(pArrayClientList);
-	int acumulator;
-	Client* bufferClient;
-	LinkedList* bufferSalesList = ll_newLinkedList();
-	ll_filterAdd(pArraySalesList, bufferSalesList, sale_isPaid);
-	if(pArrayClientList != NULL && pArraySalesList != NULL)
-	{
-		for (int i = 0; i< clientsLen;i++)
-		{
-			bufferClient = ll_get(pArrayClientList, i);
-			if(bufferClient != NULL)
-			{
-				acumulator = ll_reduceInt(bufferSalesList, sale_clientCheckSale, client_getIdClient(bufferClient));
-				client_setPostersPaids(bufferClient, acumulator);
-			}
-		}
-		report_CreatePaidFile(pArrayClientList, path, "VentasCobradas");
-	}
-	return output;
-}
-/** \brief crea el archivo donde se guardara el reporte de ventas a cobrar
- *
- * \param pArrayClientList LinkedList*
- * \param path char*
- * \param columnName char*
- * \return 0 si ok // -1 si error
- *
- */
-int report_CreateToPayFile(LinkedList* pArrayClientList,char* path, char* columName)
-{
-	int output = -1;
-	int len;
-	int i = 0;
-	Client* bufferClient;
-	FILE* pFile;
-	pFile = fopen(path,"w");
-	printf(PRINT_ONE_REGISTRY_BOTTOM);
-	if(path != NULL && pArrayClientList != NULL)
-	{
-		if(pFile != NULL)
-		{
 
-			len = ll_len(pArrayClientList);
-			fprintf(pFile,REPORT_TXT_CLIENT_TOPAY_TOP);
-			for (i = 0; i < len;i++)
-			{
-				bufferClient = ll_get(pArrayClientList, i);
-				fprintf(pFile,"%d,%s,%s,%s,%d\n",client_getIdClient(bufferClient),client_getName(bufferClient),client_getLastName(bufferClient),client_getCUIT(bufferClient),client_getPostersToPay(bufferClient));
-			}
-			fclose(pFile);
-			printf(REPORT_CREATE_FILE_SUCCESS);
-			output = 0;
-		}
-		else
-		{
-			printf(CONTROLLER_SAVE_BINARY_PATH_ERROR);
-		}
-	}
-	printf(PRINT_ONE_REGISTRY_BOTTOM);
-	return output;
-
-
-}
-/** \brief crea el archivo donde se guardara el reporte de ventas cobradas
- *
- * \param pArrayClientList LinkedList*
- * \param path char*
- * \param columnName char*
- * \return 0 si ok // -1 si error
- *
- */
-int report_CreatePaidFile(LinkedList* pArrayClientList,char* path, char* columName)
-{
-	int output = -1;
-	int len;
-	int i = 0;
-	Client* bufferClient;
-	FILE* pFile;
-	pFile = fopen(path,"w");
-	printf(PRINT_ONE_REGISTRY_BOTTOM);
-	if(path != NULL && pArrayClientList != NULL)
-	{
-		if(pFile != NULL)
-		{
-
-			len = ll_len(pArrayClientList);
-			fprintf(pFile,REPORT_TXT_CLIENT_TOPAY_TOP);
-			for (i = 0; i < len;i++)
-			{
-				bufferClient = ll_get(pArrayClientList, i);
-				fprintf(pFile,"%d,%s,%s,%s,%d\n",client_getIdClient(bufferClient),client_getName(bufferClient),client_getLastName(bufferClient),client_getCUIT(bufferClient),client_getPostersPaids(bufferClient));
-			}
-			fclose(pFile);
-			printf(REPORT_CREATE_FILE_SUCCESS);
-			output = 0;
-		}
-		else
-		{
-			printf(CONTROLLER_SAVE_BINARY_PATH_ERROR);
-		}
-	}
-	printf(PRINT_ONE_REGISTRY_BOTTOM);
-	return output;
-
-}
 /** \brief crea una lista de ventas que compartan la mayor/menor cantidad de afiches vendidos
  *
  * \param pArrayClientList LinkedList*

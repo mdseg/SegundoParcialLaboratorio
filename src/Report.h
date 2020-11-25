@@ -21,11 +21,7 @@
 #define REPORT_CLIENTS_LESS_POSTERS "Cliente o clientes a los que se le vendieron menos afiches.\n"
 #define REPORT_SALES_MOST_POSTERS "Ventas con mayor cantidad de unidades.\n"
 
-
-int report_generatePayReport(LinkedList* pArrayClientList, LinkedList* pArraySalesList,char* path);
-int report_generateSalesReport(LinkedList* pArrayClientList, LinkedList* pArraySalesList,char* path);
-int report_CreatePaidFile(LinkedList* pArrayClientList,char* path, char* columName);
-int report_CreateToPayFile(LinkedList* pArrayClientList,char* path, char* columName);
+int report_generateReport(LinkedList* pArrayClientList, LinkedList* pArraySalesList,char* path, int type);
 int report_findClientPostersSold(LinkedList* pArrayClientList,LinkedList* pArraySalesList, int order);
 int report_findSaleMostPosters(LinkedList* pArrayClientList,LinkedList* pArraySalesList, int order);
 int report_printSalesWithClient(LinkedList* pArrayListClients,LinkedList* pArrayListSales);
