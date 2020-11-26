@@ -112,6 +112,7 @@ int sale_printOneSaleBanners(Sale* this);
 int sale_printOneSale(void* this);
 int sale_clientCheckSale(void* this, int idClient);
 int sale_sumPosters(void* this, int idClient);
+int sale_printSaleIfMatches(void* this, int idClient);
 
 int isValidIdSale(int idSale);
 int isValidIdClient(int idClient);

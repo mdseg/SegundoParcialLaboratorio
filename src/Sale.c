@@ -467,6 +467,24 @@ int sale_clientCheckSale(void* this, int idClient)
 	}
 	return output;
 }
+/** \brief function criterio que evalua si la una venta corresponde a un cliente o no
+ *
+ * \param this Sale*
+ * \param idClient int
+ * \return sale_getPostersSold(this) si ok // 0 si no es // -1 si error
+ *
+ */
+int sale_printSaleIfMatches(void* this, int idClient)
+{
+	int output = -1;
+	Sale* bufferSale = (Sale*)this;
+	if (bufferSale != NULL && idClient > 0 && sale_getIdClient(bufferSale) == idClient)
+	{
+		output = 0;
+		sale_printOneSale(bufferSale);
+	}
+	return output;
+}
 /** \brief función criterio para ordenar salees por el id y devuelve el resultado de la comparación por valor
  *
  * \param sale1 void*

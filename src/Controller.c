@@ -427,11 +427,16 @@ int controller_removeClient(LinkedList* pArrayListClients,LinkedList* pArrayList
 		bufferClient = ll_get(pArrayListClients, index);
 		if (index != -1 && bufferClient != NULL)
 		{
-			if(client_printOneClientBanners(bufferClient) == 0 &&
-				utn_getInt(&op, DELETE_CLIENT_CONFIRM, MENU_SELECT_ERROR, 1, 2, ATTEMPTS) == 0)
+			client_printOneClientBanners(bufferClient);
+			printf(PRINT_ONE_SALE_TOP);
+			ll_map2IntParam(pArrayListSales, sale_printSaleIfMatches, id);
+			printf("Ventas asociada al cliente.\n");
+			printf(PRINT_ONE_SALE_BOTTOM);
+			if(utn_getInt(&op, DELETE_CLIENT_CONFIRM, MENU_SELECT_ERROR, 1, 2, ATTEMPTS) == 0)
 			{
 				if(op == 1)
 				{
+
 					limite = ll_len(pArrayListSales);
 					do{
 						swap = FALSE;

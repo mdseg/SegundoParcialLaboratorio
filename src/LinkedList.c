@@ -642,6 +642,32 @@ int ll_map2(LinkedList* this, int(*pFunc)(void*, char*), void* value)
 	}
 	return output;
 }
+/** \brief Recorre todos los elementos de la LinkedList para utilizar una función criterio en cada elemento de cada nodo y
+ *  terminar el ciclo cuando la funcion criterio retorne 1
+ * \param pList LinkedList* Puntero a la lista
+ * \param pFunc (*pFunc) Puntero a la funcion criterio
+ * \return int Retorna  (-1) Error: si el puntero a la listas es NULL
+                                ( 0) Si la función criterio nunca retorno 1
+                                (1) Si la función criterio retornó 1
+ */
+
+int ll_map2IntParam(LinkedList* this, int(*pFunc)(void*, int*), int value)
+{
+	int output = -1;
+	int len = ll_len(this);
+	void *pElement = NULL;
+	if(this != NULL)
+	{
+		output = 0;
+		for(int i = 0; i < len;i++)
+		{
+			pElement = ll_get(this, i);
+			pFunc(pElement, value);
+		}
+
+	}
+	return output;
+}
 /** \brief Recorre todos los elementos de la LinkedList para utilizar una función criterio en cada elemento de cada nodo
  *  y eliminar de la lista a lo que la funcion criterio retorne como 0
  * \param pList LinkedList* Puntero a la lista
