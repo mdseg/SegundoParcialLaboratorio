@@ -27,13 +27,13 @@ int main()
    LinkedList* listClient = ll_newLinkedList();
    LinkedList* listSales = ll_newLinkedList();
 
-   controller_loadClientsFromText(TEXT_CLIENTS_FILE,listClient);
-   controller_loadPostersFromText(TEXT_SALES_FILE, listSales);
+   //controller_loadClientsFromText(TEXT_CLIENTS_FILE,listClient);
+   //controller_loadPostersFromText(TEXT_SALES_FILE, listSales);
 
-   controller_removeClient(listClient, listSales, TEXT_CLIENTS_FILE, TEXT_SALES_FILE);
+   //controller_removeClient(listClient, listSales, TEXT_CLIENTS_FILE, TEXT_SALES_FILE);
    //controller_sortClientsAndSales(listClient, listSales);
-   controller_printClients(listClient);
-   controller_printSales(listSales);
+   //controller_printClients(listClient);
+   //controller_printSales(listSales);
 
    if(controller_loadClientsFromText(TEXT_CLIENTS_FILE,listClient) == 0 &&
 		   controller_loadPostersFromText(TEXT_SALES_FILE, listSales) == 0)

@@ -429,7 +429,7 @@ int controller_removeClient(LinkedList* pArrayListClients,LinkedList* pArrayList
 		{
 			client_printOneClientBanners(bufferClient);
 			printf(PRINT_ONE_SALE_TOP);
-			ll_map2IntParam(pArrayListSales, sale_printSaleIfMatches, id);
+			ll_mapIntParam(pArrayListSales, sale_printSaleIfMatches, id);
 			printf("Ventas asociada al cliente.\n");
 			printf(PRINT_ONE_SALE_BOTTOM);
 			if(utn_getInt(&op, DELETE_CLIENT_CONFIRM, MENU_SELECT_ERROR, 1, 2, ATTEMPTS) == 0)
@@ -533,13 +533,13 @@ int controller_removeSale(LinkedList* pArrayListSales, char* path)
  *
  * \param pArrayListClients LinkedList*
  * \param cuit char*
- * \return ll_map2(pArrayListClients, client_isRepeatCuit, cuit) si ok // -1 si error
+ * \return ll_mapWithBreak(pArrayListClients, client_isRepeatCuit, cuit) si ok // -1 si error
  *
  */
 int controller_isRepeatCuit(LinkedList* pArrayListClients,char* cuit)
 {
 	int output = -1;
-	output = ll_map2(pArrayListClients, client_isRepeatCuit, cuit);
+	output = ll_mapWithBreak(pArrayListClients, client_isRepeatCuit, cuit);
 	return output;
 }
 /** \brief imprime todos los clientes con un encabezado añadido
