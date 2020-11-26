@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define LONG_NAME 55
 
 /** \brief reserva un espacio de memoria del tipo Sale para crear un nuevo elemento
  *
@@ -465,6 +466,225 @@ int sale_clientCheckSale(void* this, int idClient)
 		}
 	}
 	return output;
+}
+/** \brief función criterio para ordenar salees por el id y devuelve el resultado de la comparación por valor
+ *
+ * \param sale1 void*
+ * \param sale1 void*
+ * \return int
+ *
+ */
+int sale_compareByIdSale(void* sale1, void* sale2)
+{
+	int output;
+	Sale* bufferFirstSale;
+	Sale* bufferSecondSale;
+	bufferFirstSale = (Sale*) sale1;
+	bufferSecondSale = (Sale*) sale2;
+	int bufferIdFirstSale;
+	int bufferIdSecondSale;
+	bufferIdFirstSale = sale_getIdSale(bufferFirstSale);
+	bufferIdSecondSale = sale_getIdSale(bufferSecondSale);
+
+	if(bufferIdFirstSale > bufferIdSecondSale)
+	{
+		output = 1;
+	}
+	else
+	{
+		if(bufferIdFirstSale < bufferIdSecondSale)
+		{
+			output = -1;
+		}
+		else
+		{
+			output = 0;
+		}
+	}
+	return output;
+}
+/** \brief función criterio para ordenar ventas por el idCliente y devuelve el resultado de la comparación por valor
+ *
+ * \param sale1 void*
+ * \param sale1 void*
+ * \return int
+ *
+ */
+int sale_compareByIdClient(void* sale1, void* sale2)
+{
+	int output;
+	Sale* bufferFirstSale;
+	Sale* bufferSecondSale;
+	bufferFirstSale = (Sale*) sale1;
+	bufferSecondSale = (Sale*) sale2;
+	int bufferIdClientFirstSale;
+	int bufferIdClientSecondSale;
+	bufferIdClientFirstSale = sale_getIdClient(bufferFirstSale);
+	bufferIdClientSecondSale = sale_getIdClient(bufferSecondSale);
+
+	if(bufferIdClientFirstSale > bufferIdClientSecondSale)
+	{
+		output = 1;
+	}
+	else
+	{
+		if(bufferIdClientFirstSale < bufferIdClientSecondSale)
+		{
+			output = -1;
+		}
+		else
+		{
+			output = 0;
+		}
+	}
+	return output;
+}
+/** \brief función criterio para ordenar ventas por la cantidad de afiches vendidos
+ *  y devuelve el resultado de la comparación por valor
+ *
+ * \param sale1 void*
+ * \param sale1 void*
+ * \return int
+ *
+ */
+int sale_compareByPostersSold(void* sale1, void* sale2)
+{
+	int output;
+	Sale* bufferFirstSale;
+	Sale* bufferSecondSale;
+	bufferFirstSale = (Sale*) sale1;
+	bufferSecondSale = (Sale*) sale2;
+	int bufferPostersSoldFirstSale;
+	int bufferPostersSoldSecondSale;
+	bufferPostersSoldFirstSale = sale_getPostersSold(bufferFirstSale);
+	bufferPostersSoldSecondSale = sale_getPostersSold(bufferSecondSale);
+
+	if(bufferPostersSoldFirstSale > bufferPostersSoldSecondSale)
+	{
+		output = 1;
+	}
+	else
+	{
+		if(bufferPostersSoldFirstSale < bufferPostersSoldSecondSale)
+		{
+			output = -1;
+		}
+		else
+		{
+			output = 0;
+		}
+	}
+	return output;
+}
+/** \brief función criterio para ordenar ventas por la zona
+ *  y devuelve el resultado de la comparación por valor
+ *
+ * \param sale1 void*
+ * \param sale1 void*
+ * \return int
+ *
+ */
+int sale_compareByZone(void* sale1, void* sale2)
+{
+	int output;
+	Sale* bufferFirstSale;
+	Sale* bufferSecondSale;
+	bufferFirstSale = (Sale*) sale1;
+	bufferSecondSale = (Sale*) sale2;
+	int bufferZoneFirstSale;
+	int bufferZoneSecondSale;
+	bufferZoneFirstSale = sale_getZone(bufferFirstSale);
+	bufferZoneSecondSale = sale_getZone(bufferSecondSale);
+
+	if(bufferZoneFirstSale > bufferZoneSecondSale)
+	{
+		output = 1;
+	}
+	else
+	{
+		if(bufferZoneFirstSale < bufferZoneSecondSale)
+		{
+			output = -1;
+		}
+		else
+		{
+			output = 0;
+		}
+	}
+	return output;
+}
+/** \brief función criterio para ordenar ventas por el estado
+ *  y devuelve el resultado de la comparación por valor
+ *
+ * \param sale1 void*
+ * \param sale1 void*
+ * \return int
+ *
+ */
+int sale_compareByStatus(void* sale1, void* sale2)
+{
+	int output;
+	Sale* bufferFirstSale;
+	Sale* bufferSecondSale;
+	bufferFirstSale = (Sale*) sale1;
+	bufferSecondSale = (Sale*) sale2;
+	int bufferStatusFirstSale;
+	int bufferStatusSecondSale;
+	bufferStatusFirstSale = sale_getStatus(bufferFirstSale);
+	bufferStatusSecondSale = sale_getStatus(bufferSecondSale);
+
+	if(bufferStatusFirstSale > bufferStatusSecondSale)
+	{
+		output = 1;
+	}
+	else
+	{
+		if(bufferStatusFirstSale < bufferStatusSecondSale)
+		{
+			output = -1;
+		}
+		else
+		{
+			output = 0;
+		}
+	}
+	return output;
+}
+/** \brief función criterio para ordenar ventas por el nombre del archivo y devuelve el resultado de la comparación por valor
+ *
+ * \param client1 void*
+ * \param client1 void*
+ * \return int
+ *
+ */
+int sale_compareByFileName(void* sale1, void* sale2)
+{
+	int output;
+	Sale* bufferFirstSale;
+	Sale* bufferSecondSale;
+	bufferFirstSale = (Sale*) sale1;
+	bufferSecondSale = (Sale*) sale2;
+	char bufferNameFirstSale[LONG_NAME];
+	char bufferNameSecondSale[LONG_NAME];
+	strcpy(bufferNameFirstSale,sale_getFileName(bufferFirstSale));
+	strcpy(bufferNameSecondSale,sale_getFileName(bufferSecondSale));
+	if(strncmp(bufferNameFirstSale,bufferNameSecondSale,LONG_NAME)>0)
+	{
+		output = 1;
+	}
+	else
+	{
+		if(strncmp(bufferNameFirstSale,bufferNameSecondSale,LONG_NAME)<0)
+		{
+			output = -1;
+		}
+		else
+		{
+			output = 0;
+		}
+	}
+	return output;
+
 }
 
 

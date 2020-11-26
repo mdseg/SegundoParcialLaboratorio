@@ -122,6 +122,11 @@ int isValidStatus(int status);
 int sale_isToPay(void* this);
 int sale_isPaid(void* this);
 
-
+int sale_compareByIdSale(void* sale1, void* sale2);
+int sale_compareByIdClient(void* sale1, void* sale2);
+int sale_compareByPostersSold(void* sale1, void* sale2);
+int sale_compareByZone(void* sale1, void* sale2);
+int sale_compareByFileName(void* sale1, void* sale2);
+int sale_compareByStatus(void* sale1, void* sale2);
 
 #endif /* SALE_H_ */

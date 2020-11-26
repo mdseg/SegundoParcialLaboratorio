@@ -103,6 +103,10 @@ int isValidCUIT(char* CUIT);
 int isValidPostersPaids(int postersPaids);
 int isValidPostersToPay(int postersToPay);
 
+int client_compareById(void* client1, void* client2);
+int client_compareByCUIT(void* client1, void* client2);
+int client_compareByName(void* client1, void* client2);
+int client_compareByLastName(void* client1, void* client2);
 
 
 #endif /* CLIENT_H_ */

@@ -244,7 +244,7 @@ int isValidCUIT(char* CUIT)
 
 /** \brief verifica que un puntero del tipo Empleado no sea nulo y posteriormente lo elimina, liberando la memoria asociada a él
  *
- * \param employee1 Employee*
+ * \param employee1 Client*
  * \return void
  *
  */
@@ -310,5 +310,149 @@ int client_isRepeatCuit(void* this, char* cuit)
 		}
 	}
 	return output;
+}
+/** \brief función criterio para ordenar clientes por el id y devuelve el resultado de la comparación por valor
+ *
+ * \param client1 void*
+ * \param client1 void*
+ * \return int
+ *
+ */
+int client_compareById(void* client1, void* client2)
+{
+	int output;
+	Client* bufferFirstClient;
+	Client* bufferSecondClient;
+	bufferFirstClient = (Client*) client1;
+	bufferSecondClient = (Client*) client2;
+	int bufferIdFirstClient;
+	int bufferIdSecondClient;
+	bufferIdFirstClient = client_getIdClient(bufferFirstClient);
+	bufferIdSecondClient = client_getIdClient(bufferSecondClient);
+
+	if(bufferIdFirstClient > bufferIdSecondClient)
+	{
+		output = 1;
+	}
+	else
+	{
+		if(bufferIdFirstClient < bufferIdSecondClient)
+		{
+			output = -1;
+		}
+		else
+		{
+			output = 0;
+		}
+	}
+	return output;
+}
+/** \brief función criterio para ordenar clientes por el nombre y devuelve el resultado de la comparación por valor
+ *
+ * \param client1 void*
+ * \param client1 void*
+ * \return int
+ *
+ */
+int client_compareByName(void* client1, void* client2)
+{
+	int output;
+	Client* bufferFirstClient;
+	Client* bufferSecondClient;
+	bufferFirstClient = (Client*) client1;
+	bufferSecondClient = (Client*) client2;
+	char bufferNameFirstClient[LONG_NAME];
+	char bufferNameSecondClient[LONG_NAME];
+	strcpy(bufferNameFirstClient,client_getName(bufferFirstClient));
+	strcpy(bufferNameSecondClient,client_getName(bufferSecondClient));
+	if(strncmp(bufferNameFirstClient,bufferNameSecondClient,LONG_NAME)>0)
+	{
+		output = 1;
+	}
+	else
+	{
+		if(strncmp(bufferNameFirstClient,bufferNameSecondClient,LONG_NAME)<0)
+		{
+			output = -1;
+		}
+		else
+		{
+			output = 0;
+		}
+	}
+	return output;
+
+}
+/** \brief función criterio para ordenar clientes por el apellido y devuelve el resultado de la comparación por valor
+ *
+ * \param client1 void*
+ * \param client1 void*
+ * \return int
+ *
+ */
+int client_compareByLastName(void* client1, void* client2)
+{
+	int output;
+	Client* bufferFirstClient;
+	Client* bufferSecondClient;
+	bufferFirstClient = (Client*) client1;
+	bufferSecondClient = (Client*) client2;
+	char bufferLastNameFirstClient[LONG_NAME];
+	char bufferLastNameSecondClient[LONG_NAME];
+	strcpy(bufferLastNameFirstClient,client_getLastName(bufferFirstClient));
+	strcpy(bufferLastNameSecondClient,client_getLastName(bufferSecondClient));
+	if(strncmp(bufferLastNameFirstClient,bufferLastNameSecondClient,LONG_NAME)>0)
+	{
+		output = 1;
+	}
+	else
+	{
+		if(strncmp(bufferLastNameFirstClient,bufferLastNameSecondClient,LONG_NAME)<0)
+		{
+			output = -1;
+		}
+		else
+		{
+			output = 0;
+		}
+	}
+	return output;
+
+}
+/** \brief función criterio para ordenar clientes por el CUIT y devuelve el resultado de la comparación por valor
+ *
+ * \param client1 void*
+ * \param client1 void*
+ * \return int
+ *
+ */
+int client_compareByCUIT(void* client1, void* client2)
+{
+	int output;
+	Client* bufferFirstClient;
+	Client* bufferSecondClient;
+	bufferFirstClient = (Client*) client1;
+	bufferSecondClient = (Client*) client2;
+	char bufferCUITFirstClient[LONG_NAME];
+	char bufferCUITSecondClient[LONG_NAME];
+	strcpy(bufferCUITFirstClient,client_getCUIT(bufferFirstClient));
+	strcpy(bufferCUITSecondClient,client_getCUIT(bufferSecondClient));
+	if(strncmp(bufferCUITFirstClient,bufferCUITSecondClient,LONG_NAME)>0)
+	{
+		output = 1;
+	}
+	else
+	{
+		if(strncmp(bufferCUITFirstClient,bufferCUITSecondClient,LONG_NAME)<0)
+		{
+			output = -1;
+		}
+		else
+		{
+			output = 0;
+		}
+	}
+	return output;
+
 }
 

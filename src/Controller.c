@@ -132,9 +132,7 @@ int controller_addClient(LinkedList* pArrayListClients, char* path)
 			{
 				printf(CONTROLLER_ISREPEATCUIT_ERROR);
 			}
-
 		}
-
 	}
     return output;
 }
@@ -515,15 +513,15 @@ int controller_printSales(LinkedList* pArrayListSales)
  * \return int
  *
  */
-/*
-int controller_sortEnvio(LinkedList* pArrayListEnvio)
+
+int controller_sortClientsAndSales(LinkedList* pArrayListClients,LinkedList* pArrayListSales)
 {
 	int output = -1;
 	int op;
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
-	printf(ENTERING_SORT_ENVIO);
+	printf("Entrando en el menu de reportes.\n");
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
-	if(pArrayListEnvio != NULL)
+	if(pArrayListClients != NULL)
 	{
 		do
 		{
@@ -531,37 +529,39 @@ int controller_sortEnvio(LinkedList* pArrayListEnvio)
 			switch(op)
 			{
 				case 1:
-					ll_sort(pArrayListEnvio,envio_compareById,1);
+					ll_sort(pArrayListClients,client_compareById,UP);
 					output = 0;
 					break;
+
 				case 2:
-					ll_sort(pArrayListEnvio,envio_compareById,0);
+					ll_sort(pArrayListClients,client_compareById,DOWN);
 					output = 0;
 					break;
 				case 3:
-					ll_sort(pArrayListEnvio,envio_compareByName,1);
+					ll_sort(pArrayListClients,client_compareByName,UP);
 					output = 0;
 					break;
 				case 4:
-					ll_sort(pArrayListEnvio,envio_compareByName,0);
+					ll_sort(pArrayListClients,client_compareByName,DOWN);
 					output = 0;
 					break;
 				case 5:
-					ll_sort(pArrayListEnvio,envio_compareByHours,1);
+					ll_sort(pArrayListClients,client_compareByLastName,UP);
 					output = 0;
 					break;
 				case 6:
-					ll_sort(pArrayListEnvio,envio_compareByHours,0);
+					ll_sort(pArrayListClients,client_compareByLastName,DOWN);
 					output = 0;
 					break;
 				case 7:
-					ll_sort(pArrayListEnvio,envio_compareBySalary,1);
+					ll_sort(pArrayListClients,client_compareByCUIT,UP);
 					output = 0;
 					break;
 				case 8:
-					ll_sort(pArrayListEnvio,envio_compareBySalary,0);
+					ll_sort(pArrayListClients,client_compareByCUIT,DOWN);
 					output = 0;
 					break;
+
 			}
 		}
 		while(op != 9);
@@ -713,6 +713,7 @@ int controller_findClientById(LinkedList* pArrayListClients, int id)
 	{
 		output = 0;
 		len = ll_len(pArrayListClients);
+
 		for(i = 0; i < len; i++)
 		{
 			bufferClient = ll_get(pArrayListClients, i);
@@ -722,6 +723,7 @@ int controller_findClientById(LinkedList* pArrayListClients, int id)
 				break;
 			}
 		}
+
 	}
 	return output;
 }

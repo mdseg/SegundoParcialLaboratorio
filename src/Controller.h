@@ -49,4 +49,4 @@ int controller_sumAllSalaries(LinkedList* pArrayListClient);
 int controller_countClients(LinkedList* pArrayListClient);
 int controller_isRepeatCuit(LinkedList* pArrayListClients,char* cuit);
 int controller_chargeSale(LinkedList* pArrayListSales, char* path);
-
+int controller_sortClientsAndSales(LinkedList* pArrayListClients,LinkedList* pArrayListSales);
