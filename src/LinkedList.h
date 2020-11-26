@@ -59,4 +59,4 @@ int ll_filter(LinkedList* this, int (*pFunc)(void*));
 int ll_filterAdd(LinkedList* originalList,LinkedList* newList, int (*pFunc)(void*));
 int ll_map(LinkedList* this, int (*pFunc)(void*));
 int ll_mapWithBreak(LinkedList* this, int(*pFunc)(void*, char*), void* value);
-int ll_mapIntParam(LinkedList* this, int(*pFunc)(void*, int*), int value);
+int ll_mapIntParam(LinkedList* this, int(*pFunc)(void*, int), int value);

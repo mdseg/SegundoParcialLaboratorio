@@ -8,3 +8,4 @@ idCliente,nombreCliente,apellidoCliente,CUIT
 7,Marcelo,Ji,20333333333
 8,Juana,Hansen,27325744459
 9,Diego,Villa,20224586589
+10,Anibal,Asimov,20245679488

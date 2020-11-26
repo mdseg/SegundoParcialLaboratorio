@@ -784,6 +784,7 @@ int controller_getNewIdCliente(LinkedList* pArrayListClient)
 	Client* bufferClient;
 	if(pArrayListClient != NULL)
 	{
+		ll_sort(pArrayListClient,client_compareById,UP);
 		len = ll_len(pArrayListClient);
 		bufferClient = ll_get(pArrayListClient, (len-1));
 		output = client_getIdClient(bufferClient) + 1;
@@ -805,6 +806,7 @@ int controller_getNewIdSale(LinkedList* pArrayListSale)
 	Sale* bufferSale;
 	if(pArrayListSale != NULL)
 	{
+		ll_sort(pArrayListSale,sale_compareByIdSale,UP);
 		len = ll_len(pArrayListSale);
 		bufferSale = ll_get(pArrayListSale, (len-1));
 		output = sale_getIdSale(bufferSale) + 1;

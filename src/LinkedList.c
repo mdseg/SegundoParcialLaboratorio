@@ -651,7 +651,7 @@ int ll_mapWithBreak(LinkedList* this, int(*pFunc)(void*, char*), void* value)
                                 (1) Si la función criterio retornó 1
  */
 
-int ll_mapIntParam(LinkedList* this, int(*pFunc)(void*, int*), int value)
+int ll_mapIntParam(LinkedList* this, int(*pFunc)(void*, int), int value)
 {
 	int output = -1;
 	int len = ll_len(this);
