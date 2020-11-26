@@ -16,7 +16,7 @@
 #define LL_NULL_ERROR "Problema al cargar la lista de empleados.\n"
 #define CONTROLLER_SAVE_BINARY_PATH_ERROR "Error al crear el archivo.\n"
 #define CONTROLLER_SAVE_TEXT_ERROR "Error al crear el archivo.\n"
-#define CONTROLLER_SORT_MENU "-------Menu de ordenamiento----------\nElija el tipo de ordenamiento deseado:\n1. Por Id ascendentemente.\n2. Por Id descendentemente.\n3. Por nombre ascendentemente.\n4. Por nombre descendentemente.\n5. Por horas trabajadas ascendentemente.\n6. Por horas trabajadas descendentemente.\n7. Por salario ascendentemente.\n8. Por salario descendentemente.\n9. Volver al menú anterior.\nSu opción --->"
+#define CONTROLLER_SORT_MENU "-------Menu de ordenamiento----------\nElija el tipo de ordenamiento deseado:\n1. Clientes: por Id ascendentemente.\n2. Clientes: por Id descendentemente.\n3. Clientes: por nombre ascendentemente.\n4. Clientes: por nombre descendentemente.\n5. Cliente: por apellido ascendentemente.\n6. Cliente: por apellido descendentemente.\n7. Cliente: por CUIT ascendentemente.\n8. Cliente: por CUIT descendentemente.\n9. Ventas: por id ascendentemente.\n10.Ventas: por id descendentemente.\n11. Venta: por id Cliente ascendentemente.\n12. Venta: por id Cliente descendentemente.\n13. Venta: por cantidad de posters vendidos ascendentemente.\n14. Venta: por cantidad de posters vendidos descendentemente.\n15. Venta: por zona ascendentemente.\n16. Venta: por zona desscendentemente.\n17. Venta: por estatus ascendentemente.\n18. Venta: por estatus descendentemente.\n19. Volver al menú anterior.\nSu opción --->"
 #define CONTROLLER_ISREPEATCUIT_ERROR "Ya existe un Cliente con ese CUIT.\n"
 #define CONTROLLER_CLIENTNOEXIST_ERROR "No existe un cliente que ese id.\n"
 #define CONTROLLER_CANCEL "Operación cancelada por el usuario.\n"
@@ -30,7 +30,8 @@ int controller_addClient(LinkedList* pArrayListClients, char* path);
 int controller_addSale(LinkedList* pArrayListSales, LinkedList* pArrayListClients, char* path);
 int controller_editClient(LinkedList* pArrayListClient, char* path);
 int controller_editSale(LinkedList* pArrayListSales,LinkedList* pArrayListClients, char* path);
-int controller_removeClient(LinkedList* pArrayListClients,char* path);
+int controller_removeClient(LinkedList* pArrayListClients,LinkedList* pArrayListSales, char* pathClient, char* pathSales);
+int controller_removeSale(LinkedList* pArrayListSales, char* path);
 int controller_printClients(LinkedList* pArrayListClient);
 int controller_printSales(LinkedList* pArrayListSales);
 int controller_sortClient(LinkedList* pArrayListClient);

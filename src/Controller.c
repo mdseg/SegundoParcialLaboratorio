@@ -408,13 +408,16 @@ int controller_editSale(LinkedList* pArrayListSales,LinkedList* pArrayListClient
  * \return int
  *
  */
-int controller_removeClient(LinkedList* pArrayListClients, char* path)
+int controller_removeClient(LinkedList* pArrayListClients,LinkedList* pArrayListSales, char* pathClient, char* pathSales)
 {
 	int output = -1;
 	int id;
 	int index;
 	int op;
 	Client* bufferClient;
+	Sale* bufferSale;
+	int limite;
+	int swap;
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	printf(ENTERING_REMOVE_CLIENT);
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
@@ -429,9 +432,27 @@ int controller_removeClient(LinkedList* pArrayListClients, char* path)
 			{
 				if(op == 1)
 				{
+					limite = ll_len(pArrayListSales);
+					do{
+						swap = FALSE;
+						for (int i = 0; i < limite;i++)
+						{
+							bufferSale = ll_get(pArrayListSales, i);
+							if(sale_getIdClient(bufferSale) == id)
+							{
+								ll_remove(pArrayListSales,controller_findSalesById(pArrayListSales, sale_getIdSale(bufferSale)));
+								sale_delete(bufferSale);
+								swap = TRUE;
+								limite--;
+								break;
+							}
+						}
+					}
+					while(swap == TRUE);
 					ll_remove(pArrayListClients, index);
 					client_delete(bufferClient);
-					controller_saveClienteAsText(path, pArrayListClients);
+					controller_saveSalesAsText(pathSales, pArrayListSales);
+					controller_saveClienteAsText(pathClient, pArrayListClients);
 					printf(DELETE_CLIENT_SUCCESS);
 				}
 				else
@@ -444,6 +465,57 @@ int controller_removeClient(LinkedList* pArrayListClients, char* path)
 		else
 		{
 			printf(DELETE_CLIENT_ERROR);
+		}
+	}
+	else
+	{
+		printf(ERROR_GENERIC);
+	}
+	return output;
+}
+/** \brief Baja de una venta
+ *
+ * \param path char*
+ * \param pArrayListClient LinkedList*
+ * \return int
+ *
+ */
+int controller_removeSale(LinkedList* pArrayListSales, char* path)
+{
+	int output = -1;
+	int id;
+	int index;
+	int op;
+	Sale* bufferSale;
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
+	printf(ENTERING_REMOVE_SALE);
+	printf(PRINT_ONE_REGISTRY_BOTTOM);
+	if(ll_len(pArrayListSales) > 0 && utn_getInt(&id, INPUT_IDSALE, ERROR_IDSALE, IDSALE_MIN, IDSALE_MAX, ATTEMPTS) == 0)
+	{
+		index = controller_findSalesById(pArrayListSales, id);
+		bufferSale = ll_get(pArrayListSales, index);
+		if (index != -1 && bufferSale != NULL)
+		{
+			if(sale_printOneSaleBanners(bufferSale) == 0 &&
+				utn_getInt(&op, DELETE_SALE_CONFIRM, MENU_SELECT_ERROR, 1, 2, ATTEMPTS) == 0)
+			{
+				if(op == 1)
+				{
+					ll_remove(pArrayListSales, index);
+					sale_delete(bufferSale);
+					controller_saveClienteAsText(path, pArrayListSales);
+					printf(DELETE_SALE_SUCCESS);
+				}
+				else
+				{
+					printf(DELETE_SALE_CANCEL);
+				}
+				output = 0;
+			}
+		}
+		else
+		{
+			printf(DELETE_SALE_ERROR);
 		}
 	}
 	else
@@ -525,7 +597,7 @@ int controller_sortClientsAndSales(LinkedList* pArrayListClients,LinkedList* pAr
 	{
 		do
 		{
-			utn_getInt(&op, CONTROLLER_SORT_MENU, MENU_SELECT_ERROR, 1, 9, ATTEMPTS);
+			utn_getInt(&op, CONTROLLER_SORT_MENU, MENU_SELECT_ERROR, 1, 19, ATTEMPTS);
 			switch(op)
 			{
 				case 1:
@@ -561,10 +633,49 @@ int controller_sortClientsAndSales(LinkedList* pArrayListClients,LinkedList* pAr
 					ll_sort(pArrayListClients,client_compareByCUIT,DOWN);
 					output = 0;
 					break;
-
+				case 9:
+					ll_sort(pArrayListSales,sale_compareByIdSale,UP);
+					output = 0;
+					break;
+				case 10:
+					ll_sort(pArrayListSales,sale_compareByIdSale,DOWN);
+					output = 0;
+					break;
+				case 11:
+					ll_sort(pArrayListSales,sale_compareByIdClient,UP);
+					output = 0;
+					break;
+				case 12:
+					ll_sort(pArrayListSales,sale_compareByIdClient,DOWN);
+					output = 0;
+					break;
+				case 13:
+					ll_sort(pArrayListSales,sale_compareByPostersSold,UP);
+					output = 0;
+					break;
+				case 14:
+					ll_sort(pArrayListSales,sale_compareByPostersSold,DOWN);
+					output = 0;
+					break;
+				case 15:
+					ll_sort(pArrayListSales,sale_compareByZone,UP);
+					output = 0;
+					break;
+				case 16:
+					ll_sort(pArrayListSales,sale_compareByZone,DOWN);
+					output = 0;
+					break;
+				case 17:
+					ll_sort(pArrayListSales,sale_compareByStatus,UP);
+					output = 0;
+					break;
+				case 18:
+					ll_sort(pArrayListSales,sale_compareByStatus,DOWN);
+					output = 0;
+					break;
 			}
 		}
-		while(op != 9);
+		while(op != 19);
 	}
 	printf(PRINT_ONE_REGISTRY_BOTTOM);
 	return output;
